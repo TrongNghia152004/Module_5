@@ -2,16 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Danh sách khách hàng</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 <!--Navigation-->
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #addccf;">
         <a class="navbar-brand" href="#">
             <img src="./image/Logo-FURAMA-RESORT-removebg-preview.png" height="75">
         </a>
@@ -29,50 +30,198 @@
         </div>
     </nav>
 </header>
-<h1 class="text-center" style="color: red">Sửa thông tin dịch vụ</h1>
-<form>
-    <div class="form-group">
-        <label for="name">Tên dịch vụ</label>
-        <input type="text" class="form-control" id="name" placeholder="Nhập tên dịch vụ">
+<section class="vh-100 bg-image">
+    <div class="bg-image h-100"
+         style="background-image: url('./image/resort-phan-rang-18.jpeg');">
+        <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0,0,0,.25);">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <div class="card bg-dark shadow-2-strong">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-dark table-borderless mb-0">
+                                        <thead>
+                                        <tr style="text-align: center ; color: red">
+                                            <th>
+                                                <a href="create-customer.html" class="btn btn-primary btn-sm">Thêm mới khách hàng</a>
+                                            </th>
+                                            <th colspan="9">
+                                                Danh sách khách hàng
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">HỌ VÀ TÊN</th>
+                                            <th scope="col">NGÀY SINH</th>
+                                            <th scope="col">GIỚI TÍNH</th>
+                                            <th scope="col">SỐ CMND</th>
+                                            <th scope="col">SỐ ĐIỆN THOẠI</th>
+                                            <th scope="col">EMAIL</th>
+                                            <th scope="col">LOẠI KHÁCH</th>
+                                            <th scope="col">ĐỊA CHỈ</th>
+                                            <th colspan="2" style="text-align: center">TÁC VỤ</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row">Đoàn Thành Tiến</th>
+                                            <td>1993/03/09</td>
+                                            <td>Nam</td>
+                                            <td>191796571</td>
+                                            <td>0911899190</td>
+                                            <td>tienDoan123@gmail.com</td>
+                                            <td>Platinium</td>
+                                            <td>13 Trần Hưng Đạo, Huế</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" type="button">Cập nhật</button>
+                                            </td>
+                                            <td>
+                                                <!-- Button trigger modal -->
+                                                <button class="btn btn-danger btn-sm" data-bs-target="#exampleModal"
+                                                        data-bs-toggle="modal"
+                                                        type="button">
+                                                    Xóa
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div aria-hidden="true" aria-labelledby="exampleModalLabel"
+                                                     class="modal fade"
+                                                     id="exampleModal" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Modal
+                                                                    title</h5>
+                                                                <button aria-label="Close" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        type="button"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                ...
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal"
+                                                                        type="button">Close
+                                                                </button>
+                                                                <button class="btn btn-primary" type="button">Save
+                                                                    changes
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!--                <a class="btn btn-danger">Xóa</a>-->
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Ngô Văn Vũ</th>
+                                            <td>1990/10/20</td>
+                                            <td>Nam</td>
+                                            <td>191794681</td>
+                                            <td>0911899581</td>
+                                            <td>VuNgo@gmail.com</td>
+                                            <td>Dinamond</td>
+                                            <td>14 Phan Bội Châu, Đà Nẳng</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" type="button">Cập nhật</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" type="button">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Phạm Thị ÁNh Phúc</th>
+                                            <td>2000/10/10</td>
+                                            <td>Nữ</td>
+                                            <td>191794091</td>
+                                            <td>0911234581</td>
+                                            <td>Phuc.Pham897@gmail.com</td>
+                                            <td>Gold</td>
+                                            <td>20 Trần Hưng Đạo, Hồ Chí Minh</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" type="button">Cập nhật</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" type="button">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Hồ Thị Thu Thảo</th>
+                                            <td>1993/09/08</td>
+                                            <td>Nữ</td>
+                                            <td>191791081</td>
+                                            <td>0911890981</td>
+                                            <td>Thao.Ho@gmail.com</td>
+                                            <td>Dinamond</td>
+                                            <td>50 Đống Đa, Huế</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" type="button">Cập nhật</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" type="button">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Trần Văn Thanh</th>
+                                            <td>2001/09/15</td>
+                                            <td>Nam</td>
+                                            <td>191714681</td>
+                                            <td>0911801581</td>
+                                            <td>Thanh.Tran123@gmail.com</td>
+                                            <td>Dinamond</td>
+                                            <td>23 Phan Thúc Duyện, Đà Nẳng</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" type="button">Cập nhật</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" type="button">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Hoàng Tất Đạt</th>
+                                            <td>2005/01/01</td>
+                                            <td>Nam</td>
+                                            <td>191791291</td>
+                                            <td>0911899181</td>
+                                            <td>Dat.hoang123@gmail.com</td>
+                                            <td>Gold</td>
+                                            <td>60 Trường Chinh, Đà Nẳng</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" type="button">Cập nhật</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" type="button">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Trần Thị Tín</th>
+                                            <td>2005/10/20</td>
+                                            <td>Nữ</td>
+                                            <td>191794891</td>
+                                            <td>0911899891</td>
+                                            <td>tin.tran891@gmail.com</td>
+                                            <td>Dinamond</td>
+                                            <td>05 Trần Văn Dư, Huế</td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm" type="button">Cập nhật</button>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" type="button">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="area">Diện tích sử dụng</label>
-        <input type="text" class="form-control" id="area" placeholder="Nhập diện tích sử dụng">
-    </div>
-    <div class="form-group">
-        <label for="price">Chi phí thuê</label>
-        <input type="text" class="form-control" id="price" placeholder="Nhập chi phí thuê">
-    </div>
-    <div class="form-group">
-        <label for="maxPeople">Số lượng người tối đa</label>
-        <input type="text" class="form-control" id="maxPeople" placeholder="Nhập số lượng người tối đa">
-    </div>
-    <div class="form-group">
-        <label for="type">Kiểu thuê</label>
-        <input type="text" class="form-control" id="type" placeholder="Nhập kiểu thuê">
-    </div>
-    <div class="form-group">
-        <label for="room">Tiêu chuẩn phòng</label>
-        <input type="text" class="form-control" id="room" placeholder="Nhập tiêu chuẩn phòng">
-    </div>
-    <div class="form-group">
-        <label for="describe">Mô tả</label>
-        <input type="text" class="form-control" id="describe" placeholder="Nhập mô tả thêm">
-    </div>
-    <div class="form-group">
-        <label for="swimArea">Diện tích hồ bơi</label>
-        <input type="text" class="form-control" id="swimArea" placeholder="Nhập diện tích hồ bơi">
-    </div>
-    <div class="form-group">
-        <label for="tang">Số tầng</label>
-        <input type="text" class="form-control" id="tang" placeholder="Nhập số tầng">
-    </div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</section>
 <div class="footer">
     <div class="container">
         <div class="row">
@@ -948,8 +1097,6 @@
                                 icon: locations[count1][4]
                             });
                         }
-
-
                     }
                 </script>
 
@@ -958,5 +1105,38 @@
         </div>
     </div>
 </div>
+<!--Modal xoá-->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Xóa cầu thủ </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/soccer-player/delete">
+                <div class="modal-body">
+                    <input type="hidden" name="deleteId" id="deleteId">
+                    <span>Bạn có chắc muốn xóa </span> <span id="deleteName"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ</button>
+                    <button type="submit" class="btn btn-danger">Xoá</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="js/bootstrap.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
