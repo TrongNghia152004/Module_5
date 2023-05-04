@@ -1,13 +1,17 @@
 import './App.css';
 import {Header} from "./component/header";
 import {Footer} from "./component/footer";
-import {Service_list} from "./component/service_list";
+import {ServiceList} from "./component/facility/service_list";
+import {CustomerList} from "./component/customer/customer_list";
+import {Contract} from "./component/contract/contract";
 
 function App() {
     return (
         <div className="App">
             <Header/>
-            <Service_list/>
+            {/*<ServiceList/>*/}
+            {/*<CustomerList/>*/}
+            <Contract/>
             <Footer/>
         </div>
     );
