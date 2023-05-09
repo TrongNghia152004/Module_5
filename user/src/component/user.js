@@ -7,7 +7,7 @@ export function User() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllUser())
-    },[])
+    }, [])
     const handleDelete = async (id) => {
         dispatch(removeUser(id))
     }
@@ -36,7 +36,8 @@ export function User() {
                             <td>{user.website}</td>
                             <td>
                                 <button className="btn btn-danger btn-sm"
-                                        onClick={() => handleDelete(user.id)}>Xoá</button>
+                                        onClick={() => handleDelete(user.id)}>Xoá
+                                </button>
                             </td>
                         </tr>
                     ))
