@@ -1,27 +1,23 @@
 import './App.css';
 import {Header} from "./component/header";
 import {Footer} from "./component/footer";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ServiceList} from "./component/facility/service_list";
-import {CustomerList} from "./component/customer/customer_list";
-import {Contract} from "./component/contract/contract";
-import {UpdateService} from "./component/facility/create_service";
-import {EditService} from "./component/facility/edit_service";
-import {CreateCustomer} from "./component/customer/create_customer";
-import {UpdateCustomer} from "./component/customer/update_customer";
+import {CreateService} from "./component/facility/create_service";
 
 function App() {
     return (
-        <div className="App">
+        <>
             <Header/>
-            {/*<ServiceList/>*/}
-            {/*<CustomerList/>*/}
-            {/*<Contract/>*/}
-            {/*<UpdateService/>*/}
-            {/*<EditService/>*/}
-            {/*<CreateCustomer/>*/}
-            <UpdateCustomer/>
+            <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<ServiceList/>}/>
+                <Route path="/addFacility" element={<CreateService/>}/>
+                {/*<Route path="" element={}/>*/}
+            </Routes>
+            </BrowserRouter>
             <Footer/>
-        </div>
+        </>
     );
 }
 

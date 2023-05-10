@@ -1,147 +1,24 @@
-export function ServiceList() {
-    const facility = [
-        {
-            "id": 1,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 2,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 3,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 4,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 5,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 6,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 7,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 8,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-        {
-            "id": 9,
-            "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-            "nameFacility": "OCEAN SUITE",
-            "typeRoom": 3,
-            "roomSize": "85.8",
-            "price": "300",
-            "maxPerson": "6",
-            "roomStandard": null,
-            "floor": null,
-            "poolArea": null,
-            "description": null,
-            "freeService": 1
-        },
-    ]
-    const typeRoom = [
-        {
-            "id": 1,
-            "name": "Villa"
-        },
-        {
-            "id": 2,
-            "name": "House"
-        },
-        {
-            "id": 3,
-            "name": "Room"
-        }
-    ]
+import {useEffect, useState} from "react";
+import * as facilityService from "../../service/facilityService";
+import {Link, useNavigate} from "react-router-dom";
 
+export function ServiceList() {
+const [facility , setFacility] = useState([]);
+useEffect(() => {
+    const fetchApi = async () => {
+        const result = await facilityService.findAllFacility();
+        setFacility(result);
+    }
+    fetchApi();
+}, [])
+    const handleDeleteFacility = async (id) => {
+    await facilityService.deleteFacility(id);
+    const result = await  facilityService.findAllFacility();
+    setFacility(result);
+    }
+    if (!facility){
+        return null;
+    }
     return (
         <>
             <div className="container-fluid">
@@ -153,9 +30,9 @@ export function ServiceList() {
                     <div className="vc_empty_space" style={{height: 72}}>
                         <span className="vc_empty_space_inner"/>
                     </div>
-                    <a href="create.html" className="btn btn-primary btn-sm">
+                    <Link to={"/addFacility"} className="btn btn-primary btn-sm">
                         Thêm mới dịch vụ
-                    </a>
+                    </Link>
                     <div className="row room-grid">
                         {facility.map((facility, index) => (
                             <div
@@ -171,9 +48,9 @@ export function ServiceList() {
                                         <h5 className="card-title">{facility.roomSize}</h5>
                                     </div>
                                     <div className="card-footer text-center">
-                                        <a href="update.html" className="btn btn-primary btn-sm">
-                                            Sửa
-                                        </a>
+                                        <Link to={"/"} className="btn btn-primary btn-sm">
+                                        Sửa
+                                        </Link>
                                         <a
                                             type="button"
                                             className="btn btn-danger btn-sm"

@@ -1,11 +1,12 @@
-import {useState} from "react";
 import {ErrorMessage, Form , Field, Formik} from "formik";
 import * as Yup from 'yup';
 import {toast, ToastContainer} from "react-toastify";
 import {Vortex} from "react-loader-spinner";
+import {useNavigate} from "react-router-dom";
+import * as facilityService from "../../service/facilityService";
 
-export function UpdateService() {
-    const [typeFacility, setTypeFacility] = useState(1);
+export function CreateService() {
+    const navigate = useNavigate();
     return (
         <>
             <Formik initialValues={{
@@ -35,21 +36,13 @@ export function UpdateService() {
                         maxRenter: Yup.number().integer()
                             .positive('Người thuê tối đa phải là số nguyên dương'),
                     })}
-                    onSubmit={(values, {setSubmitting}) => {
-                        setTimeout(() => {
-                            console.log(values);
-                            setSubmitting(false);
-                            toast.success(`Tạo ${values.nameFacility} thành công `, {
-                                position: "top-right",
-                                autoClose: 1000,
-                                hideProgressBar: false,
-                                closeOnClick: true,
-                                pauseOnHover: true,
-                                draggable: true,
-                                progress: undefined,
-                                theme: "colored",
-                            });
-                        }, 1000)
+                    onSubmit={(values, {resetForm}) => {
+                        const create = async () => {
+                            await facilityService.saveFacility(values);
+                            resetForm();
+                            navigate("/")
+                        }
+                        create();
                     }}>
                 {
                     ({isSubmitting}) => (
