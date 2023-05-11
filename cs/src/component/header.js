@@ -1,4 +1,5 @@
 import {Component} from "react";
+import {Link} from "react-router-dom";
 
 export class Header extends Component{
     render() {
@@ -28,7 +29,7 @@ export class Header extends Component{
                         style={{fontSize: 30, textAlign: "center"}}
                     >
                         <div className="navbar-nav">
-                            <a className="nav-link active" href="#">
+                            <a className="nav-link active">
                                 Home <span className="sr-only">(current)</span>
                             </a>
                             <a className="nav-link" href="#">

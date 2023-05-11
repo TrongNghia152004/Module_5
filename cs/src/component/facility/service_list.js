@@ -1,22 +1,27 @@
 import {useEffect, useState} from "react";
 import * as facilityService from "../../service/facilityService";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 export function ServiceList() {
-const [facility , setFacility] = useState([]);
-useEffect(() => {
-    const fetchApi = async () => {
-        const result = await facilityService.findAllFacility();
+    const [facility, setFacility] = useState([]);
+    const [facilityDetail, setFacilityDetail] = useState();
+    useEffect(() => {
+        const fetchApi = async () => {
+            const result = await facilityService.findAllFacility();
+            setFacility(result);
+        }
+        fetchApi();
+    }, []);
+    const handleDelete = async () => {
+        await facilityService.deleteFacility(facilityDetail?.id);
+        let result = await facilityService.findAllFacility();
         setFacility(result);
-    }
-    fetchApi();
-}, [])
-    const handleDeleteFacility = async (id) => {
-    await facilityService.deleteFacility(id);
-    const result = await  facilityService.findAllFacility();
-    setFacility(result);
-    }
-    if (!facility){
+    };
+    const getData = async (id) => {
+        const data = await facilityService.findFacilityById(id);
+        setFacilityDetail(data);
+    };
+    if (!facility) {
         return null;
     }
     return (
@@ -48,17 +53,38 @@ useEffect(() => {
                                         <h5 className="card-title">{facility.roomSize}</h5>
                                     </div>
                                     <div className="card-footer text-center">
-                                        <Link to={"/"} className="btn btn-primary btn-sm">
-                                        Sửa
+                                        <Link to={`/editFacility/${facility.id}`} className="btn btn-primary btn-sm">
+                                            Sửa
                                         </Link>
-                                        <a
-                                            type="button"
-                                            className="btn btn-danger btn-sm"
-                                            data-toggle="modal"
-                                            data-target="#modelId"
-                                        >
-                                            Xoá
+                                        <a onClick={() => getData(facility.id)} type="button"
+                                                className="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">
+                                            Xóa
                                         </a>
+                                        <div className="modal fade" id="exampleModal" tabIndex="-1"
+                                             aria-labelledby="exampleModalLabel"
+                                             aria-hidden="true">
+                                            <div className="modal-dialog">
+                                                <div className="modal-content">
+                                                    <div className="modal-header">
+                                                        <h5 className="modal-title" id="exampleModalLabel">Modal
+                                                            title</h5>
+                                                    </div>
+                                                    <div className="modal-body">
+                                                        <span>Bạn có muốn xóa</span>
+                                                        <span>{facilityDetail?.title}</span>
+                                                    </div>
+                                                    <div className="modal-footer">
+                                                        <button type="button" className="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Đóng
+                                                        </button>
+                                                        <button onClick={() => handleDelete()} type="button"
+                                                                className="btn btn-primary btn-sm" data-bs-dismiss="modal">Xóa
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>))

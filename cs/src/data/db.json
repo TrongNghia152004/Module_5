@@ -1,32 +1,16 @@
 {
   "facility": [
     {
-      "id": 1,
-      "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
       "nameFacility": "OCEAN SUITE",
-      "typeRoom": 3,
       "roomSize": "85.8",
+      "img": "https://cf.shopee.vn/file/d05282c31322bae0e3e1f278d5bee83d",
       "price": "300",
-      "maxPerson": "6",
-      "roomStandard": null,
-      "floor": null,
-      "poolArea": null,
-      "description": null,
-      "freeService": 1
-    },
-    {
-      "id": 2,
-      "img": "https://furamavietnam.com/wp-content/uploads/2018/03/Vietnam_Danang_Furama_Ocean-Suite-Feature-370x239.jpg",
-      "nameFacility": "OCEAN SUITE",
-      "typeRoom": 3,
-      "roomSize": "85.8",
-      "price": "300",
-      "maxPerson": "6",
-      "roomStandard": null,
-      "floor": null,
-      "poolArea": null,
-      "description": null,
-      "freeService": 1
+      "roomStandard": "213",
+      "floor": "32",
+      "poolArea": "23",
+      "description": "dành cho trẻ 4 tuổi",
+      "freeService": 1,
+      "id": 2
     },
     {
       "id": 3,
@@ -125,6 +109,33 @@
       "poolArea": null,
       "description": null,
       "freeService": 1
+    },
+    {
+      "nameFacility": "t",
+      "typeRoom": 1,
+      "roomSize": "34",
+      "img": "https://product.hstatic.net/1000132959/product/screenshot_62_f2d59149336f4980840ecd2dc662242f_master.jpg",
+      "price": "50000",
+      "roomStandard": "213",
+      "floor": "32",
+      "poolArea": "23",
+      "description": "5 tuoi",
+      "freeService": "",
+      "id": 10
+    }
+  ],
+  "freeService": [
+    {
+      "id": 1,
+      "name": "Airport Shuttle"
+    },
+    {
+      "id": 2,
+      "name": "Breakfast"
+    },
+    {
+      "id": 3,
+      "name": "Laundry service"
     }
   ],
   "typeRoom": [
@@ -151,7 +162,7 @@
       "phoneNumber": "0905551127",
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 5,
-      "address": "Villa"
+      "address": "Van Kiem Quy Tong"
     },
     {
       "id": 2,
@@ -162,7 +173,7 @@
       "phoneNumber": "0905551127",
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 4,
-      "address": "Villa"
+      "address": "Bat Cuc Bang"
     },
     {
       "id": 3,
@@ -173,7 +184,7 @@
       "phoneNumber": "0905551127",
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 3,
-      "address": "Villa"
+      "address": "No Long Cuoc"
     },
     {
       "id": 4,
@@ -184,7 +195,7 @@
       "phoneNumber": "0905551127",
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 2,
-      "address": "Villa"
+      "address": "Hasagi"
     },
     {
       "id": 5,
@@ -195,7 +206,7 @@
       "phoneNumber": "0905551127",
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 1,
-      "address": "Villa"
+      "address": "Tran choi"
     },
     {
       "id": 6,
@@ -206,7 +217,7 @@
       "phoneNumber": "0905551127",
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 3,
-      "address": "Villa"
+      "address": "Ao anh tram"
     },
     {
       "id": 7,
@@ -217,7 +228,7 @@
       "phoneNumber": "0905551127",
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 2,
-      "address": "Villa"
+      "address": "Phat no hoa lien"
     },
     {
       "id": 8,
@@ -240,6 +251,17 @@
       "email": "ttn.hdttb152004@gmail.com",
       "typeCustomer": 5,
       "address": "Villa"
+    },
+    {
+      "name": "Thh",
+      "dateOfBirth": "2023-05-05",
+      "gender": "0",
+      "identity": 111111111,
+      "phoneNumber": "0905555555",
+      "email": "ttn.hdttb152004@gmail.com",
+      "address": "k03/10 Vạn Tường",
+      "typeCustomer": "3",
+      "id": 10
     }
   ],
   "typeCustomer": [
@@ -269,7 +291,7 @@
       "id": 1,
       "idContract": "CO-0001",
       "customerId": 2,
-      "facilityId": 1,
+      "facilityId": 2,
       "dayIn": "09-05-2023",
       "dayOut": "14-05-2023",
       "deposits": "900"
@@ -309,6 +331,15 @@
       "dayIn": "2023-05-12",
       "dayOut": "2023-05-30",
       "deposits": "20000"
+    },
+    {
+      "idContract": "2435",
+      "customerId": "3",
+      "facilityId": "4",
+      "dayIn": "2023-05-05",
+      "dayOut": "2023-05-17",
+      "deposits": 3242,
+      "id": 9
     }
   ]
 }
