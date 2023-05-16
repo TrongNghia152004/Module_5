@@ -12,7 +12,7 @@ export function UpdateProduct(){
     useEffect(() => {
         const fetchApi = async () => {
             const result = await productService.findById(param?.id);
-            const result2 = await productService.findAllTypeProduct();
+            const result2 = await productService.findAllProductType();
             setTypeProductList(result2);
             setProduct(result)
         }
@@ -35,7 +35,7 @@ export function UpdateProduct(){
                 })}
                 onSubmit={(values, {resetForm}) => {
                     const update = async () => {
-                        await productService.update(product?.id , values);
+                        await productService.edit(product?.id , values);
                         alert("Cap nhat thanh cong")
                         console.log(values)
                         resetForm();

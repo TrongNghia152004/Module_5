@@ -9,7 +9,7 @@ export function CreateProduct(){
     const [typeProductList, setTypeProductList] = useState([]);
     useEffect(() => {
         const fetchApi = async () => {
-            const result = await productService.findAllTypeProduct();
+            const result = await productService.findAllProductType();
             setTypeProductList(result);
         }
         fetchApi();
@@ -28,7 +28,7 @@ export function CreateProduct(){
                     })}
                     onSubmit={(values, {resetForm}) => {
                         const create = async () => {
-                            await productService.create(values);
+                            await productService.save(values);
                             alert("Them moi thanh cong")
                             console.log(values)
                             resetForm();

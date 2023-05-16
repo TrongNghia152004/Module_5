@@ -74,7 +74,7 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("")
+    @PutMapping("/update")
     public ResponseEntity<?> edit(@Validated @RequestBody ProductDTO productDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             iProductService.edit(productDTO);

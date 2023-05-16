@@ -12,7 +12,7 @@ export const findByName = async (name, productType, page) => {
 
 export const save = async (id , product) => {
     try {
-        await axios.post(`http://localhost:8080/products/${id}`, {...product})
+        await axios.post(`http://localhost:8080/products/update/${id}`, {...product})
     } catch (error) {
         console.log(error);
     }
