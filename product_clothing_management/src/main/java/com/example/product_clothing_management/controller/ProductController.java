@@ -14,19 +14,35 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private IProductService iProductService;
+
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public List<Product> showList(){
+    public List<Product> showList() {
         return iProductService.findAll();
     }
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Product findById(@PathVariable int id){
+    public Product findById(@PathVariable int id) {
         return iProductService.findById(id);
     }
-    @PutMapping("/{id}")
+
+    @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void update(@PathVariable("id") int id , @RequestBody Product product){
-        iProductService.update(product , id);
+    public void update(@PathVariable("id") int id, @RequestBody Product product) {
+        iProductService.update(product, id);
+    }
+
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create() {
+        Product product = new Product();
+        iProductService.create(product);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable int id) {
+        iProductService.delete(id);
     }
 }

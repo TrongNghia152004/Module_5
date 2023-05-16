@@ -10,19 +10,11 @@ export const findAll = async () => {
 }
 export const update = async (id, product) => {
     try {
-        await axios.put(`http://localhost:8080/products/${id}`, {...product});
+        await axios.put(`http://localhost:8080/products/update/${id}`, {...product});
     } catch (error) {
         console.log(error);
     }
 }
-// export const search = async (name, typeProduct) => {
-//     try {
-//         const result = await axios.get(`http://localhost:3000/products?name_like=${name}&typeProduct=${typeProduct}`);
-//         return result.data;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
 export const findAllTypeProduct = async () => {
     try {
         const result = await axios.get(`http://localhost:8080/product-type`);
@@ -39,11 +31,17 @@ export const findById = async (id) => {
         console.log(error);
     }
 }
-// export const findByNameContaining = async (name) => {
-//     try {
-//         const result = await axios.get(`http://localhost:3000/products?name_like=${name}`);
-//         return result.data;
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+export const remove = async (id) => {
+    try {
+        await axios.delete(`http://localhost:8080/products/${id}`);
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const create = async (product) => {
+    try {
+        await axios.post(`http://localhost:8080/products`, product);
+    } catch (error) {
+        console.log(error);
+    }
+}

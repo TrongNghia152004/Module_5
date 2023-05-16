@@ -10,4 +10,6 @@ public interface IProductService {
     List<Product> findAll();
     void update(Product product , int id);
     Product findById(int id);
+    void create(Product product);
+    void delete(int id);
 }

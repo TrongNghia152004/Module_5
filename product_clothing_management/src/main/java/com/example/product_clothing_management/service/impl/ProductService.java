@@ -13,13 +13,14 @@ public class ProductService implements IProductService {
 
     @Autowired
     private IProductRepository iProductRepository;
+
     @Override
     public List<Product> findAll() {
         return iProductRepository.findAll();
     }
 
     @Override
-    public void update(Product product , int id) {
+    public void update(Product product, int id) {
         Product product1 = iProductRepository.findById(id).get();
         iProductRepository.save(product1);
     }
@@ -27,5 +28,15 @@ public class ProductService implements IProductService {
     @Override
     public Product findById(int id) {
         return iProductRepository.findById(id).get();
+    }
+
+    @Override
+    public void create(Product product) {
+        iProductRepository.save(product);
+    }
+
+    @Override
+    public void delete(int id) {
+        iProductRepository.delete(iProductRepository.findById(id).get());
     }
 }

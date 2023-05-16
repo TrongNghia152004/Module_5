@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 export function Product() {
     const [productList, setProductList] = useState([]);
     const [typeProductList, setTypeProductList] = useState([]);
+    const [product , setProduct] = useState();
     useEffect(() => {
         const fetchApi = async () => {
             const result1 = await productService.findAll();
@@ -14,34 +15,22 @@ export function Product() {
         }
         fetchApi();
     }, []);
-    // const search = async () => {
-    //     const name = document.getElementById("name").value;
-    //     const typeProduct = document.getElementById("typeProduct").value;
-    //     const result = await productService.search(name, typeProduct)
-    //     setProductList(result);
-    // }
-    // const searchByName = async () => {
-    //     const name = document.getElementById("nameSearch").value;
-    //     const result = await productService.findByNameContaining(name)
-    //     setProductList(result);
-    // }
+    const handleDelete = async () => {
+        await productService.remove(product?.id);
+        let result = await productService.findAll();
+        setProductList(result);
+    };
+    const getData = async (id) => {
+        const data = await productService.findById(id);
+        setProduct(data);
+    };
     return (
         <>
             <div>
                 <h1 className="text-center" style={{color: "red"}}>Danh sach san pham</h1>
-                {/*<div>*/}
-                {/*    <label htmlFor="nameSearch">Tim kiem theo ten san pham:</label>*/}
-                {/*    <input type="text" id="nameSearch" name="nameSearch" onChange={() => searchByName()}/>*/}
-                {/*</div>*/}
-                {/*<div>*/}
-                {/*    <label htmlFor="nameSearch">Tim kiem theo ten va loai san pham:</label>*/}
-                {/*    <input type="text" id="name" name="name" onChange={() => search()}/>*/}
-                {/*    <select name="typeProduct" id="typeProduct" onChange={() => search()}>*/}
-                {/*        {typeProductList.map((type, index) => (*/}
-                {/*            <option key={index} value={type.id}>{type.name}</option>*/}
-                {/*        ))}*/}
-                {/*    </select>*/}
-                {/*</div>*/}
+                <div>
+                    <Link to={"/create"}>Them moi san pham</Link>
+                </div>
                 <table className="table table-striped">
                     <thead>
                     <tr>
@@ -64,7 +53,38 @@ export function Product() {
                                 {typeProductList.find((typeProduct) => typeProduct.id == product.productType.id)?.name}
                             </td>
                             <td>
-                                <Link className="btn btn-primary btn-sm" to={`/${product.id}`}>Sua</Link>
+                                <Link className="btn btn-primary btn-sm" to={`/update/${product.id}`}>Sua</Link>
+                            </td>
+                            <td>
+                                <a type="button" onClick={() => getData(product.id)}
+                                   className="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                   data-bs-target="#exampleModal">
+                                    Xóa
+                                </a>
+                                <div className="modal fade" id="exampleModal" tabIndex="-1"
+                                     aria-labelledby="exampleModalLabel"
+                                     aria-hidden="true">
+                                    <div className="modal-dialog">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h5 className="modal-title" id="exampleModalLabel">Modal
+                                                    title</h5>
+                                            </div>
+                                            <div className="modal-body">
+                                                <span>Bạn có muốn xóa</span>
+                                                <span></span>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Đóng
+                                                </button>
+                                                <button type="button" onClick={() => handleDelete()}
+                                                        className="btn btn-primary btn-sm" data-bs-dismiss="modal">Xóa
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     ))}
