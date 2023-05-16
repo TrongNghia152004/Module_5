@@ -19,6 +19,9 @@ public class ProductType {
         this.name = name;
     }
 
+    public ProductType(int id) {
+    }
+
     public int getId() {
         return id;
     }

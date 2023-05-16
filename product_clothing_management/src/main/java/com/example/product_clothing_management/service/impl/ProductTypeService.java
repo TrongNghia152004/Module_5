@@ -13,7 +13,7 @@ public class ProductTypeService implements IProductTypeService {
     @Autowired
     private IProductTypeRepository iProductTypeRepository;
     @Override
-    public List<ProductType> findAll() {
-        return iProductTypeRepository.findAll();
+    public List<ProductType> findProductType() {
+        return iProductTypeRepository.findAllBookType();
     }
 }

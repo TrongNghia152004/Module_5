@@ -1,9 +1,14 @@
 package com.example.product_clothing_management.service.impl;
 
+import com.example.product_clothing_management.dto.ProductDTO;
 import com.example.product_clothing_management.model.Product;
+import com.example.product_clothing_management.model.ProductType;
 import com.example.product_clothing_management.repository.IProductRepository;
 import com.example.product_clothing_management.service.IProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,30 +18,43 @@ public class ProductService implements IProductService {
 
     @Autowired
     private IProductRepository iProductRepository;
-
     @Override
-    public List<Product> findAll() {
-        return iProductRepository.findAll();
+    public Page<Product> findByName(String name, String bookType, Pageable pageable) {
+        return iProductRepository.findByName(name,bookType,pageable);
     }
 
     @Override
-    public void update(Product product, int id) {
-        Product product1 = iProductRepository.findById(id).get();
-        iProductRepository.save(product1);
+    public Product findByIdProduct(int id) {
+        return iProductRepository.findByIdProduct(id);
     }
 
     @Override
-    public Product findById(int id) {
-        return iProductRepository.findById(id).get();
+    public void create(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setProductType(new ProductType(productDTO.getProductTypeDTO().getId()));
+        BeanUtils.copyProperties(productDTO,product);
+        iProductRepository.saveProduct(
+                product.getName(),
+                product.getImportDate(),
+                String.valueOf(product.getQuantity()),
+                product.getProductType().getId());
     }
 
     @Override
-    public void create(Product product) {
-        iProductRepository.save(product);
+    public void edit(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setProductType(new ProductType(productDTO.getProductTypeDTO().getId()));
+        BeanUtils.copyProperties(productDTO,product);
+        iProductRepository.edit(
+                product.getName(),
+                product.getImportDate(),
+                String.valueOf(product.getQuantity()),
+                product.getProductType().getId(),
+                product.getId());
     }
 
     @Override
-    public void delete(int id) {
-        iProductRepository.delete(iProductRepository.findById(id).get());
+    public void deleteProduct(int id) {
+        iProductRepository.deleteProduct(id);
     }
 }

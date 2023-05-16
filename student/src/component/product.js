@@ -8,8 +8,8 @@ export function Product() {
     const [product , setProduct] = useState();
     useEffect(() => {
         const fetchApi = async () => {
-            const result1 = await productService.findAll();
-            const result2 = await productService.findAllTypeProduct();
+            const result1 = await productService.findByName();
+            const result2 = await productService.findAllProductType();
             setProductList(result1);
             setTypeProductList(result2)
         }
@@ -17,7 +17,7 @@ export function Product() {
     }, []);
     const handleDelete = async () => {
         await productService.remove(product?.id);
-        let result = await productService.findAll();
+        let result = await productService.findByName();
         setProductList(result);
     };
     const getData = async (id) => {
@@ -53,7 +53,7 @@ export function Product() {
                                 {typeProductList.find((typeProduct) => typeProduct.id == product.productType.id)?.name}
                             </td>
                             <td>
-                                <Link className="btn btn-primary btn-sm" to={`/update/${product.id}`}>Sua</Link>
+                                <Link className="btn btn-primary btn-sm" to={`/${product.id}`}>Sua</Link>
                             </td>
                             <td>
                                 <a type="button" onClick={() => getData(product.id)}

@@ -14,9 +14,9 @@ import java.util.List;
 public class ProductTypeController {
     @Autowired
     private IProductTypeService iProductTypeService;
-    @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProductType> showList(){
-        return iProductTypeService.findAll();
+    @GetMapping("")
+    public List<ProductType> showProductType(){
+        return iProductTypeService.findProductType();
     }
 }
