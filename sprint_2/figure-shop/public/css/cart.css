@@ -1,0 +1,79 @@
+.title-cart {
+    font: 32px "Open Sans", sans-serif;
+    color: #fa6e4f;
+    font-weight: bold;
+}
+.title-h5{
+    font: 20px "Open Sans", sans-serif;
+    font-weight: bold;
+    color: white;
+}
+.div-title-cart{
+    margin-top: 12%;
+}
+.font-address{
+    font: 18px "Open Sans", sans-serif;
+    color: white;
+}
+.counter {
+    justify-content: center;
+    font-size: 0px;
+}
+
+.counter button {
+    padding: 14px 10px 5px 10px;
+    color: #fa6e4f;
+    background: white;
+    border: 2px solid #fa6e4f;
+}
+.counter span {
+    padding: 10px;
+    font-size: 16px;
+}
+.font-cart{
+    font: 16px "Open Sans", sans-serif;
+    color: #fa6e4f;
+}
+.svg-cart{
+    margin: -15px -10px -6px -10px;
+}
+.counter button:hover {
+    color: white;
+    background: #fa6e4f;
+}
+.svg-delete{
+    padding: 5px 12px 5px 12px;
+    background: red;
+    color: white;
+}
+.svg-delete:hover{
+    background: white;
+    color: red;
+}
+.background-cart{
+    background: #fa6e4f;
+
+}
+.left {
+    text-align: left;
+    color: white;
+}
+.right{
+    text-align: right;
+    color: white;
+}
+.margin-cart{
+    margin-top: 20px;
+}
+.price{
+    font-size: 32px;
+    font-weight: bold;
+}
+.btn-cart{
+    background: #fa6e4f;
+    color: white;
+    border: 2px solid #fa6e4f;
+    margin-top: 20px;
+    width: 100%;
+    height: 100%;
+}
