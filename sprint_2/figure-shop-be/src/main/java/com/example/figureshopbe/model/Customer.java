@@ -1,90 +1,53 @@
 package com.example.figureshopbe.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_customer")
-    private Integer idCustomer;
-    @Column(name = "name_customer",columnDefinition = "varchar(255)")
-    private String nameCustomer;
-
-    @Column(name ="date_of_birth")
-    private LocalDate dateOfBirth;
-    @Column(name = "point_customer" , columnDefinition = "varchar(45)")
-    private Double pointCustomer;
-    @Column(name = "gender",columnDefinition = "varchar(45)")
+    private Integer id;
+    private String name;
     private String gender;
-    @Column(name = "phone",columnDefinition = "varchar(25)")
-    private String phone;
-    @Column(name = "address",columnDefinition = "varchar(255)")
+    private String phoneNumber;
     private String address;
-    @Column(name = "email",columnDefinition = "varchar(255)")
-    private String email;
-    @Column(name = "identity_card",columnDefinition = "varchar(45)")
     private String identityCard;
-    @Column(name = "img_customer", columnDefinition = "varchar(255)")
-    private String imgCustomer;
-
     @ManyToOne
-    @JoinColumn(name = "id_type_customer")
-    private TypeCustomer typeCustomer;
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "id")
+    @JoinColumn(columnDefinition = "id_customer_type")
+    private CustomerType customerType;
+    @OneToOne
+    @JoinColumn(columnDefinition = "id_account")
     private AccountUser accountUser;
 
     public Customer() {
     }
 
-    public Customer(Integer idCustomer, String nameCustomer, LocalDate dateOfBirth, Double pointCustomer, String gender, String phone, String address, String email, String identityCard, String imgCustomer, TypeCustomer typeCustomer, AccountUser accountUser) {
-        this.idCustomer = idCustomer;
-        this.nameCustomer = nameCustomer;
-        this.dateOfBirth = dateOfBirth;
-        this.pointCustomer = pointCustomer;
+    public Customer(Integer id, String name, String gender, String phoneNumber, String address, String identityCard, CustomerType customerType, AccountUser accountUser) {
+        this.id = id;
+        this.name = name;
         this.gender = gender;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
         this.address = address;
-        this.email = email;
         this.identityCard = identityCard;
-        this.imgCustomer = imgCustomer;
-        this.typeCustomer = typeCustomer;
+        this.customerType = customerType;
         this.accountUser = accountUser;
     }
 
-    public Integer getIdCustomer() {
-        return idCustomer;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdCustomer(Integer idCustomer) {
-        this.idCustomer = idCustomer;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getNameCustomer() {
-        return nameCustomer;
+    public String getName() {
+        return name;
     }
 
-    public void setNameCustomer(String nameCustomer) {
-        this.nameCustomer = nameCustomer;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public Double getPointCustomer() {
-        return pointCustomer;
-    }
-
-    public void setPointCustomer(Double pointCustomer) {
-        this.pointCustomer = pointCustomer;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGender() {
@@ -95,28 +58,12 @@ public class Customer {
         this.gender = gender;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getIdentityCard() {
@@ -127,20 +74,12 @@ public class Customer {
         this.identityCard = identityCard;
     }
 
-    public String getImgCustomer() {
-        return imgCustomer;
+    public CustomerType getCustomerType() {
+        return customerType;
     }
 
-    public void setImgCustomer(String imgCustomer) {
-        this.imgCustomer = imgCustomer;
-    }
-
-    public TypeCustomer getTypeCustomer() {
-        return typeCustomer;
-    }
-
-    public void setTypeCustomer(TypeCustomer typeCustomer) {
-        this.typeCustomer = typeCustomer;
+    public void setCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
     }
 
     public AccountUser getAccountUser() {
@@ -149,5 +88,13 @@ public class Customer {
 
     public void setAccountUser(AccountUser accountUser) {
         this.accountUser = accountUser;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

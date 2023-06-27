@@ -7,23 +7,23 @@ import javax.persistence.*;
 public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProductType;
+    private Integer id;
     private String name;
 
     public ProductType() {
     }
 
-    public ProductType(Integer idProductType, String name) {
-        this.idProductType = idProductType;
+    public ProductType(Integer id, String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public Integer getIdProductType() {
-        return idProductType;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdProductType(Integer idProductType) {
-        this.idProductType = idProductType;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

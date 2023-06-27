@@ -3,31 +3,39 @@ package com.example.figureshopbe.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_order;
+    private Integer id;
     private String totalPayment;
     @ManyToOne
-    @JoinColumn(name = "id_customer")
+    @JoinColumn(columnDefinition = "id_user")
     private Customer customer;
 
     public Order() {
     }
 
-    public Order(Integer id_order, String totalPayment, Customer customer) {
-        this.id_order = id_order;
+    public Order(Integer id, String totalPayment, Customer customer) {
+        this.id = id;
         this.totalPayment = totalPayment;
         this.customer = customer;
     }
 
-    public Integer getId_order() {
-        return id_order;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setId_order(Integer id_order) {
-        this.id_order = id_order;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTotalPayment() {
@@ -38,11 +46,4 @@ public class Order {
         this.totalPayment = totalPayment;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 }

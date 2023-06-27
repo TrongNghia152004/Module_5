@@ -1,0 +1,50 @@
+.header-section {
+    margin-top: 250px;
+}
+
+.select-option {
+    width: 100%;
+    border: 2px solid #fa6e4f;
+    color: #fa6e4f;
+    margin-right: 108px;
+}
+
+.text-option {
+    text-align: center;
+    color: #fa6e4f;
+    background: white;
+    margin-right: 108px;
+}
+
+.search-flex {
+    display: flex;
+}
+
+.input-search {
+    width: 95%;
+    margin: 0 -9px 0 0;
+}
+
+.card-p {
+    text-align: center;
+}
+
+.button-card {
+    display: none;
+}
+
+.button-card:hover {
+    width: 100%;
+    height: 20px;
+    background: #fa6e4f;
+    color: white;
+}
+
+.icon-cart {
+    margin-right: 20px;
+    color: #fa6e4f;
+}
+.message-search{
+    text-align: center;
+    color: red;
+}

@@ -1,5 +1,8 @@
 package com.example.figureshopbe.model;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,23 +10,23 @@ import javax.persistence.*;
 public class FigureProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idProduct;
+    private int id;
     private String name;
     private String imgFigure;
-    private String price;
+    private Double price;
     private String material;
     private String height;
     private String weight;
     private String export;
     @ManyToOne
-    @JoinColumn(name = "id_product_type")
+    @JoinColumn(columnDefinition = "id_product_type")
     private ProductType productType;
 
     public FigureProduct() {
     }
 
-    public FigureProduct(int idProduct, String name, String imgFigure, String price, String material, String height, String weight, String export, ProductType productType) {
-        this.idProduct = idProduct;
+    public FigureProduct(int id, String name, String imgFigure, Double price, String material, String height, String weight, String export, ProductType productType) {
+        this.id = id;
         this.name = name;
         this.imgFigure = imgFigure;
         this.price = price;
@@ -32,14 +35,15 @@ public class FigureProduct {
         this.weight = weight;
         this.export = export;
         this.productType = productType;
+
     }
 
-    public int getIdProduct() {
-        return idProduct;
+    public int getId() {
+        return id;
     }
 
-    public void setIdProduct(int idProduct) {
-        this.idProduct = idProduct;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -58,11 +62,11 @@ public class FigureProduct {
         this.imgFigure = imgFigure;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

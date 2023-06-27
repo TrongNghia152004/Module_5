@@ -9,12 +9,12 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCart;
     private Integer quantity;
-    private boolean status;
+    private boolean status = true;
     @ManyToOne
-    @JoinColumn(name = "id_customer")
+    @JoinColumn(columnDefinition = "id_customer")
     private Customer customer;
     @ManyToOne
-    @JoinColumn(name = "id_product")
+    @JoinColumn(columnDefinition = "id_product")
     private FigureProduct figureProduct;
 
     public Cart() {
@@ -26,6 +26,10 @@ public class Cart {
         this.status = status;
         this.customer = customer;
         this.figureProduct = figureProduct;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public Integer getIdCart() {
@@ -46,10 +50,6 @@ public class Cart {
 
     public Customer getCustomer() {
         return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public FigureProduct getFigureProduct() {

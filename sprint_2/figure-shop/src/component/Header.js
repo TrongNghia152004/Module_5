@@ -1,5 +1,17 @@
-export function Header(){
-    return(
+import {Link} from "react-router-dom";
+import Dropdown from "react-bootstrap/Dropdown";
+import {Avatar} from "@mui/material";
+import {useContext} from "react";
+import {ValueIconCartContext} from "./ValueIconCartContext";
+
+export function Header() {
+    const username = localStorage.getItem("username");
+    const {iconQuantity} = useContext(ValueIconCartContext)
+    const handleLogout = async () => {
+        localStorage.clear();
+        window.location.href = "/home";
+    }
+    return (
         <>
             <div className="header">
                 <div className="top-header">
@@ -10,27 +22,27 @@ export function Header(){
                                     <ul className="d-flex">
                                         <li className="icon">
                                             <a href="">
-                                                <i className="fab fa-facebook-f" />
+                                                <i className="fab fa-facebook-f"/>
                                             </a>
                                         </li>
                                         <li className="icon">
                                             <a href="">
-                                                <i className="fab fa-instagram" />
+                                                <i className="fab fa-instagram"/>
                                             </a>
                                         </li>
                                         <li className="icon">
                                             <a href="">
-                                                <i className="fab fa-twitter" />
+                                                <i className="fab fa-twitter"/>
                                             </a>
                                         </li>
                                         <li className="icon">
                                             <a href="">
-                                                <i className="fab fa-youtube" />
+                                                <i className="fab fa-youtube"/>
                                             </a>
                                         </li>
                                         <li className="icon">
                                             <a href="">
-                                                <i className="fab fa-google-plus-g" />
+                                                <i className="fab fa-google-plus-g"/>
                                             </a>
                                         </li>
                                     </ul>
@@ -41,19 +53,19 @@ export function Header(){
                                     <ul className="d-flex justify-content-end">
                                         <li className="contact">
                                             <a className="header-shop-map" href="">
-                                                <i className="fas fa-map-marker-alt" />
+                                                <i className="fas fa-map-marker-alt"/>
                                                 Hệ thống cửa hàng
                                             </a>
                                         </li>
                                         <li className="contact">
                                             <a className="header-shop-phone" href="">
-                                                <i className="fas fa-phone" />
+                                                <i className="fas fa-phone"/>
                                                 (+84)816 195 246
                                             </a>
                                         </li>
                                         <li className="contact">
                                             <a className="header-shop-support" href="">
-                                                <i className="fas fa-envelope" />
+                                                <i className="fas fa-envelope"/>
                                                 ttn.hdttb152004@gmail.com
                                             </a>
                                         </li>
@@ -73,7 +85,7 @@ export function Header(){
                                             <img
                                                 alt=""
                                                 src="/image/logo.png"
-                                                style={{ height: "25%", width: "50%" }}
+                                                style={{height: "25%", width: "50%"}}
                                             />
                                         </a>
                                     </div>
@@ -87,7 +99,7 @@ export function Header(){
                                             data-bs-toggle="collapse"
                                             type="button"
                                         >
-                                            <span className="navbar-toggler-icon" />
+                                            <span className="navbar-toggler-icon"/>
                                         </button>
                                     </div>
                                     <div
@@ -105,13 +117,13 @@ export function Header(){
                                                 </a>
                                             </li>
                                             <li className="nav-item">
-                                                <a
+                                                <Link
                                                     aria-current="page"
                                                     className="nav-link active"
-                                                    href="shop.html"
+                                                    to="/product"
                                                 >
                                                     Sản phẩm
-                                                </a>
+                                                </Link>
                                             </li>
                                             <li className="nav-item">
                                                 <a aria-current="page" className="nav-link active" href="">
@@ -132,20 +144,39 @@ export function Header(){
                                     </div>
                                     <ul className="icon-nav justify-content-end d-flex">
                                         <li>
-                                            <a
-                                                className="icon-user"
-                                                data-bs-target="#exampleModal"
-                                                data-bs-toggle="modal"
-                                                href=""
-                                            >
-                                                <i className="fas fa-user-alt" />
-                                            </a>
+                                            {username ? (
+                                                    <Dropdown>
+                                                        <Dropdown.Toggle
+                                                            variant="transparent"
+                                                            className="login-drop d-flex justify-content-center align-items-center border-0"
+                                                        >
+                                                            <Avatar>{username[0].toUpperCase()}</Avatar>
+                                                        </Dropdown.Toggle>
+                                                        <Dropdown.Menu>
+                                                            <Dropdown.Item
+                                                                onClick={handleLogout}
+                                                                className="text-decoration-none"
+                                                            >
+                                                                Đăng xuất
+                                                            </Dropdown.Item>
+                                                        </Dropdown.Menu>
+                                                    </Dropdown>
+                                                ) :
+                                                (
+                                                    <Link to="/login"
+                                                          className="icon-user"
+                                                          href=""
+                                                    >
+                                                        <i className="fas fa-user-alt"/>
+                                                    </Link>
+                                                )
+                                            }
                                         </li>
                                         <li>
-                                            <a className="icon-buy" href="">
-                                                <i className="fas fa-shopping-cart" />
-                                                <div className="number-buy">0</div>
-                                            </a>
+                                            <Link to="/cart" className="icon-buy" href="">
+                                                <i className="fas fa-shopping-cart"/>
+                                                <div className="number-buy">{iconQuantity}</div>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -157,39 +188,39 @@ export function Header(){
                     <div className="row">
                         <div className="col-12">
                             <div className="search">
-                                <input placeholder="Tìm kiếm..." type="text" />
-                                <i className="fas fa-search" />
+                                <input placeholder="Tìm kiếm..." type="text"/>
+                                <i className="fas fa-search"/>
                             </div>
-                            <hr />
+                            <hr/>
                             <div className="row">
                                 <div className="col-6 d-flex flex-column align-items-start res-left">
                                     <div className="res-home">
                                         <a href="">
-                                            <i className="fas fa-house-user" />
+                                            <i className="fas fa-house-user"/>
                                             Trang chủ
                                         </a>
                                     </div>
                                     <div className="resproducts">
                                         <a href="">
-                                            <i className="fas fa-cart-plus" />
+                                            <i className="fas fa-cart-plus"/>
                                             Sản phẩm
                                         </a>
                                     </div>
                                     <div className="res-contact">
                                         <a href="">
-                                            <i className="fas fa-map-marker-alt" />
+                                            <i className="fas fa-map-marker-alt"/>
                                             Liên hệ
                                         </a>
                                     </div>
                                     <div className="res-about">
                                         <a href="">
-                                            <i className="fas fa-address-card" />
+                                            <i className="fas fa-address-card"/>
                                             Giới thiệu
                                         </a>
                                     </div>
                                     <div className="about-us">
                                         <a href="">
-                                            <i className="fab fa-themeisle" />
+                                            <i className="fab fa-themeisle"/>
                                             Về chúng tôi
                                         </a>
                                     </div>
@@ -197,13 +228,13 @@ export function Header(){
                                 <div className="col-6 d-flex flex-column align-items-start res-right">
                                     <div className="love">
                                         <a href="">
-                                            <i className="far fa-heart" />
+                                            <i className="far fa-heart"/>
                                             Yêu thích
                                         </a>
                                     </div>
                                     <div className="res-n">
                                         <a href="">
-                                            <i className="far fa-newspaper" />
+                                            <i className="far fa-newspaper"/>
                                             Tin tức
                                         </a>
                                     </div>
@@ -213,7 +244,6 @@ export function Header(){
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

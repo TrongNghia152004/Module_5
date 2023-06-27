@@ -1,133 +1,158 @@
-import {Header} from "./Header";
-import {Footer} from "./Footer";
+import {useContext, useEffect, useState} from "react";
+import * as CartService from "../service/CartService";
+import {Link} from "react-router-dom";
+import * as CustomerService from "../service/CustomerService";
+import {ValueIconCartContext} from "./ValueIconCartContext";
 
 export function Cart() {
+    const [carts, setCarts] = useState([]);
+    const token = localStorage.getItem("token");
+    const [customer, setCustomer] = useState();
+    const {iconQuantity, setIconQuantity} = useContext(ValueIconCartContext)
+    const [cart] = useState({
+        quantity: 1,
+        figureProduct: ""
+    })
+    // useEffect(() => )
+    const findAllCart = async ()=>{
+        try {
+            const result = await CartService.findCartByCustomerId(token);
+            setCarts(result);
+            const totalQuantity = result.reduce((total, item) => total + item.quantity, 0);
+            setIconQuantity(totalQuantity);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    useEffect(() => {
+      findAllCart()
+    }, []);
+    useEffect(() => {
+        (async () => {
+            const result = await CustomerService.findCustomer(token);
+            setCustomer(result);
+        })()
+    }, []);
+    const totalPrice = carts.reduce((total, cart) => {
+        return total + cart?.figureProduct?.price * cart?.quantity;
+    }, 0);
+    const decreaseQuantity = async (cartIndex) => {
+        const updatedCarts = [...carts];
+        if (updatedCarts[cartIndex].quantity > 1) {
+            updatedCarts[cartIndex].quantity -= 1;
+            setCarts(updatedCarts);
+            try {
+                await CartService.updateCart({
+                    ...cart,
+                    quantity: updatedCarts[cartIndex].quantity,
+                    figureProduct: updatedCarts[cartIndex].figureProduct?.id
+                }, token);
+
+            }catch (e) {
+
+            }
+
+        }
+    };
+    const increaseQuantity = async (cartIndex) => {
+        const updatedCarts = [...carts];
+        updatedCarts[cartIndex].quantity += 1;
+        setCarts(updatedCarts);
+        await CartService.updateCart({
+            ...cart,
+            quantity: updatedCarts[cartIndex].quantity,
+            figureProduct: updatedCarts[cartIndex].figureProduct?.id
+        }, token);
+
+    };
+    const handleInputChange = async (event, cartIndex) => {
+        const newQuantity = parseInt(event.target.value);
+        if (!isNaN(newQuantity) && newQuantity >= 1) {
+            const updatedCarts = [...carts];
+            updatedCarts[cartIndex].quantity = newQuantity;
+            setCarts(updatedCarts);
+            await CartService.updateCart({
+                ...cart,
+                quantity: updatedCarts[cartIndex].quantity,
+                figureProduct: updatedCarts[cartIndex].figureProduct?.id
+            }, token);
+
+
+        }
+    };
+    console.log(carts)
     return (
         <>
-            <Header/>
-            <div className="container">
-                <div className="row">
-                    <div className="col div-title-cart">
-                        <h2 className="title-cart">GIỎ HÀNG</h2>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-9">
-                        <table className="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>
-                                    <input type="checkbox"/>Tất cả
-                                </th>
-                                <th>
-                                    Đơn giá
-                                </th>
-                                <th>
-                                    Số lượng
-                                </th>
-                                <th>Thành tiền</th>
-                                <th>Xoá</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr className="font-cart">
-                                <td><input type="checkbox"/>Nghĩa đẹp trai khoai to</td>
-                                <td>128.000đ</td>
-                                <td>
-                                    <div className="row">
-                                        <div className="col counter">
-                                            <button id="decrement">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                     fill="currentColor" className="bi bi-dash svg-cart"
-                                                     viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-                                                </svg>
-                                            </button>
-                                            <span id="count">0</span>
-                                            <button id="increment">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18"
-                                                     fill="currentColor" className="bi bi-plus-lg svg-cart"
-                                                     viewBox="0 0 16 16">
-                                                    <path fillRule="evenodd"
-                                                          d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-                                                </svg>
-                                            </button>
+            <div className="container cart-margin">
+                <div className="card ">
+                    <div className="row" style={{display: "flex"}}>
+                        <div className="col-md-8 cart">
+                            <div className="title-cart">
+                                <div className="row">
+                                    <div className="col">
+                                        <h4>
+                                            <b>Giỏ hàng</b>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row border-top border-bottom">
+                                {carts.map((cart, index) => (
+                                    <div className="row main align-items-center" key={index}>
+                                        <div className="col-2">
+                                            <img className="img-cart-hihi img-fluid"
+                                                 src={cart?.figureProduct?.imgFigure}/>
+                                        </div>
+                                        <div className="col">
+                                            <div className="row text-muted">{cart?.figureProduct?.name}</div>
+                                        </div>
+                                        <div className="col">
+                                            <a className="a-cart"
+                                               onClick={() => decreaseQuantity(index)}>-</a>
+                                            <input type="text" onChange={(event) => handleInputChange(event, index)}
+                                                   className="input-c" value={cart.quantity}/>
+                                            <a className="a-cart" onClick={() => increaseQuantity(index)}>+</a>
+                                        </div>
+                                        <div className="col">
+                                            {(cart.quantity * cart?.figureProduct?.price).toLocaleString("vi-VN", {
+                                                style: "currency",
+                                                currency: "VND",
+                                            })}
                                         </div>
                                     </div>
-                                </td>
-                                <td>
-                                    128.000đ
-                                </td>
-                                <td>
-                                    <button className="btn svg-delete">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                             fill="currentColor"
-                                             className="bi bi-trash3" viewBox="0 0 16 16">
-                                            <path
-                                                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                                        </svg>
-                                    </button>
-                                </td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className="col-3">
-                        <div className="background-cart container">
-                            <div className="row">
-                                <div className="col">
-                                    <h5 className="title-h5">Giao tới</h5>
-                                </div>
+                                ))}
                             </div>
-                            <div className="row ">
-                                <div className="col">
-                                    <h5 className="title-h5">Nguyễn Văn An | 0898175813</h5>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col">
-                                    <h5 className="font-address">k03/10 Vạn Tường</h5>
-                                </div>
+                            <div className="back-to-shop">
+                                <Link to="/home" className="a-cart">←</Link>
+                                <span className="text-muted">Trang chủ</span>
                             </div>
                         </div>
-                        <div className="container background-cart margin-cart">
-                            <div className="row">
-                                <div className="col-9">
-                                    <span className="left">Tạm tính</span>
+                        <div className="col-md-4 summary">
+                            <div>
+                                <h5 className="h5-cart">
+                                    <b>Đơn hàng</b>
+                                </h5>
+                            </div>
+                            <hr className="hr-cart"/>
+                            <form className="form-cart">
+                                <div className="col" style={{paddingLeft: 0}}>
+                                    Giao đến : {customer?.address}
                                 </div>
-                                <div className="col-3"><span className="right">251.000đ</span></div>
+                            </form>
+                            <div
+                                className="row"
+                                style={{borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0"}}
+                            >
+                                <div className="col item">Tổng tiền : {totalPrice.toLocaleString("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                })}</div>
                             </div>
-                            <div className="row">
-                                <div className="col-9">
-                                    <span className="left">Giảm giá</span>
-                                </div>
-                                <div className="col-3"><span className="right">0đ</span></div>
-                            </div>
-                            <div className="row">
-                                <hr/>
-                            </div>
-                            <div className="row">
-                                <div className="col-5">
-                                    <span className="left">Tổng cộng</span>
-                                </div>
-                                <div className="col-7"><span className="right price">251.000đ</span></div>
-                            </div>
-                        </div>
-                        <div className="container-fluid">
-                            <div className="row">
-                                <div className="col">
-                                    <button className="btn-cart">
-                                        Mua hàng
-                                    </button>
-                                </div>
-                            </div>
+                            <button className="btn-cart">Thanh toán</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer/>
         </>
     )
 }

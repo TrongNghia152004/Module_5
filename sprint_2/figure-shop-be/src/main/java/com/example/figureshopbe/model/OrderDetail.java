@@ -8,33 +8,33 @@ public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_order_detail")
-    private Integer idOrderDetail;
+    private Integer id;
     @Column(name = "quantity_order")
     private Integer quantityOrder;
     @ManyToOne
-    @JoinColumn(name = "id_product")
+    @JoinColumn(columnDefinition = "id_product")
     private FigureProduct figureProduct;
 
     @ManyToOne
-    @JoinColumn(name = "id_order")
+    @JoinColumn(columnDefinition = "id_order")
     private Order order;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(Integer idOrderDetail, Integer quantityOrder, FigureProduct figureProduct, Order order) {
-        this.idOrderDetail = idOrderDetail;
+    public OrderDetail(Integer id, Integer quantityOrder, FigureProduct figureProduct, Order order) {
+        this.id = id;
         this.quantityOrder = quantityOrder;
         this.figureProduct = figureProduct;
         this.order = order;
     }
 
-    public Integer getIdOrderDetail() {
-        return idOrderDetail;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdOrderDetail(Integer idOrderDetail) {
-        this.idOrderDetail = idOrderDetail;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getQuantityOrder() {
