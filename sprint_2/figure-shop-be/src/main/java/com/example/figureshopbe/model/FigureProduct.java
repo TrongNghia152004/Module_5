@@ -1,8 +1,5 @@
 package com.example.figureshopbe.model;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 
 @Entity
@@ -17,7 +14,7 @@ public class FigureProduct {
     private String material;
     private String height;
     private String weight;
-    private String export;
+    private Integer quantity;
     @ManyToOne
     @JoinColumn(columnDefinition = "id_product_type")
     private ProductType productType;
@@ -25,7 +22,7 @@ public class FigureProduct {
     public FigureProduct() {
     }
 
-    public FigureProduct(int id, String name, String imgFigure, Double price, String material, String height, String weight, String export, ProductType productType) {
+    public FigureProduct(int id, String name, String imgFigure, Double price, String material, String height, String weight, Integer quantity, ProductType productType) {
         this.id = id;
         this.name = name;
         this.imgFigure = imgFigure;
@@ -33,9 +30,8 @@ public class FigureProduct {
         this.material = material;
         this.height = height;
         this.weight = weight;
-        this.export = export;
+        this.quantity = quantity;
         this.productType = productType;
-
     }
 
     public int getId() {
@@ -94,12 +90,12 @@ public class FigureProduct {
         this.weight = weight;
     }
 
-    public String getExport() {
-        return export;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setExport(String export) {
-        this.export = export;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public ProductType getProductType() {

@@ -5,11 +5,11 @@ import {
     login
 } from "../service/LoginService";
 import {useNavigate} from "react-router-dom";
+import Swal from "sweetalert2";
 
 export function Login() {
     const [failedAccount, setFailedAccount] = useState(null);
     const navigate = useNavigate();
-    // const dispatch = useDispatch();
     return (<>
         <div className="container-fluid">
             <div className="d-flex justify-content-center">
@@ -39,6 +39,12 @@ export function Login() {
                                     localStorage.setItem("username", e.username);
                                     localStorage.setItem("account", JSON.stringify(e));
                                     // dispatch(receiveAccount(e));
+                                    Swal.fire({
+                                        title: 'Thông báo',
+                                        text: 'Đăng nhập thành công!',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    })
                                     navigate("/home")
                                 })
                                 .catch((e) => {

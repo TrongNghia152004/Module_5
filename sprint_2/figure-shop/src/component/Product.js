@@ -5,6 +5,7 @@ import ReactPaginate from "react-paginate";
 import * as CartService from "../service/CartService";
 import {ValueIconCartContext} from "./ValueIconCartContext";
 import {Link} from "react-router-dom";
+import Swal from "sweetalert2";
 
 export function Product() {
     const username = localStorage.getItem("username");
@@ -18,12 +19,15 @@ export function Product() {
     })
     const token = localStorage.getItem("token");
     useEffect(() => {
-        (async () => {
-            const result = await CartService.findCartByCustomerId(token);
-            const totalQuantity = result.reduce((total, item) => total + item.quantity, 0);
-            setIconQuantity(totalQuantity);
-        })()
-    }, [])
+        {
+            username ? (async () => {
+                const result = await CartService.findCartByCustomerId(token);
+                const totalQuantity = result.reduce((total, item) => total + item.quantity, 0);
+                setIconQuantity(totalQuantity);
+            })() : setIconQuantity(0)
+        }
+
+    }, []);
     const [pageCount, setPageCount] = useState(0);
     const handlePageOnclick = (event) => {
         setRequest((prev) => ({...prev, page: event.selected}))
@@ -43,7 +47,6 @@ export function Product() {
     useEffect(() => {
         (async () => {
             const productList = await ProductService.findAllProduct(request);
-            console.log(productList)
             setPageCount(productList.totalPages);
             setProducts(productList.content);
         })()
@@ -86,33 +89,43 @@ export function Product() {
                         </div>
                     </div>
                     <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2 pt-4">
-                        {products.length == 0 ? (
-                            <span className="message-search">Không tìm thấy tên sản phẩm</span>) : products.map((product, index) => {
+                        {products.length === 0 ? (
+                            <div
+                                className="message-search">
+                                <div>Không tìm thấy tên sản phẩm</div>
+                                <div className="text-center" style={{fontSize: 100}}><i
+                                    className="fas fa-search icon-search"/></div>
+                            </div>
+                        ) : products.map((product, index) => {
                                 return (
                                     <div className="col-xl-3 col-md-6 col-12 m-b-20 p-3" key={index}>
                                         <div className="card">
                                             <img src={product.imgFigure} className="img-cart" alt=""/>
                                             <div className="card-body">
                                                 <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                                <Link to={`/detail/${product.id}`} className="card-text card-p">
-                                                    {product.name}
-                                                </Link>
-                                                <p className="card-price">{product.price.toLocaleString("vi-VN", {
-                                                    style: "currency",
-                                                    currency: "VND",
-                                                })}
-                                                    {username ? (
-                                                        <a type='button' onClick={() => handleAddCart(product.id)}
-                                                           className="icon-buy icon-cart">
-                                                            <i className="fas fa-shopping-cart"/>
-                                                        </a>
-                                                    ) : (
-                                                        <Link to="/login"
-                                                              className="icon-buy icon-cart">
-                                                            <i className="fas fa-shopping-cart"/>
-                                                        </Link>
-                                                    )}
-                                                </p>
+                                                <div className="card-p">
+                                                    <Link to={`/detail/${product.id}`} className="card-text ">
+                                                        {product.name}
+                                                    </Link>
+                                                </div>
+                                                <div className="card-p">
+                                                    <p className="card-price">{product.price.toLocaleString("vi-VN", {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                    })}
+                                                        {username ? (
+                                                            <a type='button' onClick={() => handleAddCart(product.id)}
+                                                               className="icon-buy icon-cart">
+                                                                <i className="fas fa-shopping-cart"/>
+                                                            </a>
+                                                        ) : (
+                                                            <Link to="/login"
+                                                                  className="icon-buy icon-cart">
+                                                                <i className="fas fa-shopping-cart"/>
+                                                            </Link>
+                                                        )}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -120,21 +133,29 @@ export function Product() {
                             }
                         )}
                     </div>
-                    {products && (
-                        <div className="d-grid">
-                            <ReactPaginate
-                                breakLabel="..."
-                                nextLabel=">"
-                                onPageChange={handlePageOnclick}
-                                pageCount={pageCount}
-                                previousLabel="<"
-                                containerClassName="pagination"
-                                pageLinkClassName="page-num"
-                                nextLinkClassName="page-num"
-                                previousLinkClassName="page-num"
-                                activeClassName="active"
-                                disabledClassName="d-none"
-                            />
+                    {products.length === 0 ? (
+                        <div></div>
+                    ) : (
+                        <div>
+                            {products && (
+                                <div className="d-grid" style={{marginLeft: "46%", marginTop: 10}}>
+                                    <ReactPaginate
+                                        previousLabel="Trước"
+                                        nextLabel="Sau"
+                                        pageCount={pageCount}
+                                        onPageChange={handlePageOnclick}
+                                        containerClassName='pagination'
+                                        previousClassName='page-item'
+                                        previousLinkClassName='page-link'
+                                        nextClassName='page-item'
+                                        nextLinkClassName='page-link'
+                                        pageClassName='page-item'
+                                        pageLinkClassName='page-link'
+                                        activeClassName='active'
+                                        activeLinkClassName='page-link'
+                                    />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

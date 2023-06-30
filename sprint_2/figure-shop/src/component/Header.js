@@ -1,16 +1,28 @@
-import {Link} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import {Avatar} from "@mui/material";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {ValueIconCartContext} from "./ValueIconCartContext";
+import Swal from "sweetalert2";
 
 export function Header() {
     const username = localStorage.getItem("username");
     const {iconQuantity} = useContext(ValueIconCartContext)
+    const navigate = useNavigate();
     const handleLogout = async () => {
         localStorage.clear();
-        window.location.href = "/home";
+        Swal.fire({
+            title: 'Thông báo',
+            text: 'Đăng xuất thành công!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        })
+        navigate("/home")
     }
+    const [activeLink, setActiveLink] = useState('');
+    const handleClick = (link) => {
+        setActiveLink(link);
+    };
     return (
         <>
             <div className="header">
@@ -108,22 +120,22 @@ export function Header() {
                                     >
                                         <ul className="navbar-nav  mb-2 mb-lg-0 justify-content-center ">
                                             <li className="nav-item">
-                                                <a
-                                                    aria-current="page"
-                                                    className="nav-link active home"
-                                                    href="index.html"
+                                                <NavLink
+                                                    className={activeLink === '/home' ? 'nav-link active home' : 'nav-link'}
+                                                    to="/home"
+                                                    onClick={() => handleClick('/home')}
                                                 >
                                                     Trang chủ
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li className="nav-item">
-                                                <Link
-                                                    aria-current="page"
-                                                    className="nav-link active"
+                                                <NavLink
+                                                    className={activeLink === '/product' ? 'nav-link active home' : 'nav-link'}
                                                     to="/product"
+                                                    onClick={() => handleClick('/product')}
                                                 >
                                                     Sản phẩm
-                                                </Link>
+                                                </NavLink>
                                             </li>
                                             <li className="nav-item">
                                                 <a aria-current="page" className="nav-link active" href="">
@@ -173,7 +185,7 @@ export function Header() {
                                             }
                                         </li>
                                         <li>
-                                            <Link to="/cart" className="icon-buy" href="">
+                                            <Link to={username? "/cart" : "/login"} className="icon-buy" href="">
                                                 <i className="fas fa-shopping-cart"/>
                                                 <div className="number-buy">{iconQuantity}</div>
                                             </Link>

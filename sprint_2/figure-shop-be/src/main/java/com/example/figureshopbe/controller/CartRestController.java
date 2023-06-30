@@ -56,17 +56,26 @@ public class CartRestController {
         Cart existCart = iCartService.existCart(customer.getId(), cartCreateDTO.getFigureProduct());
         FigureProduct figureProduct = iFigureProductService.findById(cartCreateDTO.getFigureProduct());
         if (existCart != null) {
-            existCart.setQuantity(existCart.getQuantity() + cartCreateDTO.getQuantity());
-            iCartService.add(existCart);
-            return new ResponseEntity<>(new ResponseMessage("Cập nhật giỏ hàng thành công"), HttpStatus.OK);
+            if (figureProduct.getQuantity() > existCart.getQuantity()){
+                existCart.setQuantity(existCart.getQuantity() + cartCreateDTO.getQuantity());
+                iCartService.add(existCart);
+                return new ResponseEntity<>(new ResponseMessage("Cập nhật giỏ hàng thành công"), HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(new ResponseMessage("Thêm sản phẩm vào giỏ hàng thành công"), HttpStatus.BAD_REQUEST);
+            }
+
         } else {
             Cart cart = new Cart();
-            cart.setQuantity(cartCreateDTO.getQuantity());
-            cart.setCustomer(customer);
-            cart.setStatus(cartCreateDTO.isStatus());
-            cart.setFigureProduct(figureProduct);
-            iCartService.add(cart);
-            return new ResponseEntity<>(new ResponseMessage("Thêm vào giỏ hàng thành công"), HttpStatus.OK);
+            if (figureProduct.getQuantity() >= cartCreateDTO.getQuantity()){
+                cart.setQuantity(cartCreateDTO.getQuantity());
+                cart.setCustomer(customer);
+                cart.setStatus(cartCreateDTO.isStatus());
+                cart.setFigureProduct(figureProduct);
+                iCartService.add(cart);
+                return new ResponseEntity<>(new ResponseMessage("Thêm vào giỏ hàng thành công"), HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(new ResponseMessage("Thêm sản phẩm vào giỏ hàng thành công"), HttpStatus.BAD_REQUEST);
+            }
         }
     }
 
@@ -77,8 +86,19 @@ public class CartRestController {
         String name = jwtProvider.getUserNameFromToken(token);
         Customer customer = iCustomerService.findByAccount(name);
         Cart cart = iCartService.existCart(customer.getId(), updateCartDTO.getFigureProduct());
-        cart.setQuantity(updateCartDTO.getQuantity());
-        iCartService.add(cart);
-        return new ResponseEntity<>(new ResponseMessage("Cập nhật số lượng trong giỏ hàng thành công"), HttpStatus.OK);
+        if (cart.getFigureProduct().getQuantity() >= updateCartDTO.getQuantity()) {
+            cart.setQuantity(updateCartDTO.getQuantity());
+            iCartService.add(cart);
+            return new ResponseEntity<>(new ResponseMessage("Cập nhật số lượng trong giỏ hàng thành công"), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new ResponseMessage("Cập nhật số lượng trong giỏ hàng không thành công"), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> removeCart(HttpServletRequest request, @PathVariable("id") Integer id) {
+        iCartService.delete(iCartService.findById(id));
+        return new ResponseEntity<>(new ResponseMessage("Xoá sản phẩm thành công"), HttpStatus.OK);
     }
 }

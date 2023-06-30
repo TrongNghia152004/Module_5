@@ -17,7 +17,7 @@ export function EditService() {
 
     useEffect(() => {
         const fetchApi = async () => {
-            let findFacility = await facilityService.findFacilityById(param.id);
+            let findFacility = await facilityService.findFacilityById(param?.id);
             const result1 = await facilityService.findAllTypeRoom();
             const result2 = await facilityService.findAllFreeService();
             setTypeRoomList(result1);

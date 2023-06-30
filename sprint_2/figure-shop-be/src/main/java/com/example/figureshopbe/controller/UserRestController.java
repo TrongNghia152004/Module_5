@@ -40,6 +40,7 @@ public class UserRestController {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtProvider jwtProvider;
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody SignUpForm signUpForm) {
         if (accountUserService.existByNameAccount(signUpForm.getUsername())) {
