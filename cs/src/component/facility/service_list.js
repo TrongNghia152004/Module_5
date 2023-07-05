@@ -18,7 +18,7 @@ export function ServiceList() {
         setFacility(result);
     };
     const getData = async (id) => {
-        const data = await facilityService.findFacilityById(id);
+        const data = await facilityService.findFacilityById(id , );
         setFacilityDetail(data);
     };
     if (!facility) {

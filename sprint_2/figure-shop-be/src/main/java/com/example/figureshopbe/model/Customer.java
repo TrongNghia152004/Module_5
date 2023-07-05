@@ -12,6 +12,8 @@ public class Customer {
     private String gender;
     private String phoneNumber;
     private String address;
+    private String email;
+    private String dateOfBirth;
     private String identityCard;
     @ManyToOne
     @JoinColumn(columnDefinition = "id_customer_type")
@@ -23,12 +25,14 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer id, String name, String gender, String phoneNumber, String address, String identityCard, CustomerType customerType, AccountUser accountUser) {
+    public Customer(Integer id, String name, String gender, String phoneNumber, String address, String email, String dateOfBirth, String identityCard, CustomerType customerType, AccountUser accountUser) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
         this.identityCard = identityCard;
         this.customerType = customerType;
         this.accountUser = accountUser;
@@ -96,5 +100,21 @@ public class Customer {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

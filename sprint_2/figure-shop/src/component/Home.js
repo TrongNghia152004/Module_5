@@ -1,7 +1,44 @@
-import {Header} from "./Header";
-import {Footer} from "./Footer";
+import {useEffect, useState} from "react";
+import * as ProductService from "../service/ProductService";
+import {Link} from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 export function Home() {
+    const [onePiece, setOnePiece] = useState({
+        page: 0,
+        name: "",
+        idType: 1
+    })
+    const [pageCount, setPageCount] = useState(0);
+    const username = localStorage.getItem("username");
+    const token = localStorage.getItem("token");
+    const [productOP, setProductOP] = useState([]);
+    const [productNA, setProductNA] = useState([]);
+    const [naruto, setNaruto] = useState({
+        page: 0,
+        name: "",
+        idType: 2
+    })
+    useEffect(() => {
+        (async () => {
+            const productOP = await ProductService.findAllProduct(onePiece);
+            setPageCount(productOP.totalPages);
+            setProductOP(productOP.content);
+        })()
+    }, [onePiece]);
+    useEffect(() => {
+        (async () => {
+            const productNA = await ProductService.findAllProduct(naruto);
+            setPageCount(productNA.totalPages);
+            setProductNA(productNA.content);
+        })()
+    }, [naruto]);
+    const handlePageOnclickOP = (event) => {
+        setOnePiece((prev) => ({...prev, page: event.selected}))
+    }
+    const handlePageOnclickNA = (event) => {
+        setNaruto((prev) => ({...prev, page: event.selected}))
+    }
     return (
         <>
             <div className="container-fluid">
@@ -45,349 +82,117 @@ export function Home() {
             <section className="section">
                 <div className="container">
                     <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2 font">
-                        <h2 className="font-size">MÔ HÌNH ONEPIECE</h2>
+                        <h2 className="font-size">MÔ HÌNH ONPIECE</h2>
                     </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2">
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Luffy và các bại tướng chất lượng- cao 48 cm – ngang 40
-                                        cm – nặng 7 kg – Có Hộp carton – Box xốp
-                                    </p>
-                                    <p className="card-price">5.000.000 đ</p>
+                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2 pt-4">
+                        {productOP.map((product, index) => {
+                            return (
+                                <div className="col-xl-3 col-md-6 col-12 m-b-20 p-3" key={index}>
+                                    <div className="card">
+                                        <img src={product.imgFigure} className="img-cart" alt=""/>
+                                        <div className="card-body">
+                                            <h5 className="card-title">MÔ HÌNH ANIME</h5>
+                                            <div className="card-p">
+                                                <Link to={`/detail/${product.id}`} className="card-text ">
+                                                    {product.name}
+                                                </Link>
+                                            </div>
+                                            <div className="card-p">
+                                                <p className="card-price">{product.price.toLocaleString("vi-VN", {
+                                                    style: "currency",
+                                                    currency: "VND",
+                                                })}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Wcf Luffy Zoro Sanji Nami Choper Usopp Law Kin’emon Sư
-                                        Tử vàng Otama- Cao 5cm – No Box
-                                    </p>
-                                    <p className="card-price">10.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
+                            )
+                        }
+                        )
+                        }
                     </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2">
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Luffy và các bại tướng chất lượng- cao 48 cm – ngang 40
-                                        cm – nặng 7 kg – Có Hộp carton – Box xốp
-                                    </p>
-                                    <p className="card-price">5.000.000 đ</p>
+                    {productOP.length === 0 ? (
+                        <div></div>
+                    ) : (
+                        <div>
+                            {productOP && (
+                                <div className="d-grid" style={{marginLeft: "46%", marginTop: 10}}>
+                                    <ReactPaginate
+                                        previousLabel="Trước"
+                                        nextLabel="Sau"
+                                        pageCount={pageCount}
+                                        onPageChange={handlePageOnclickOP}
+                                        containerClassName='pagination'
+                                        previousClassName='page-item'
+                                        previousLinkClassName='page-link'
+                                        nextClassName='page-item'
+                                        nextLinkClassName='page-link'
+                                        pageClassName='page-item'
+                                        pageLinkClassName='page-link'
+                                        activeClassName='active'
+                                        activeLinkClassName='page-link'
+                                    />
                                 </div>
-                            </div>
+                            )}
                         </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Wcf Luffy Zoro Sanji Nami Choper Usopp Law Kin’emon Sư
-                                        Tử vàng Otama- Cao 5cm – No Box
-                                    </p>
-                                    <p className="card-price">10.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2">
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Luffy và các bại tướng chất lượng- cao 48 cm – ngang 40
-                                        cm – nặng 7 kg – Có Hộp carton – Box xốp
-                                    </p>
-                                    <p className="card-price">5.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Wcf Luffy Zoro Sanji Nami Choper Usopp Law Kin’emon Sư
-                                        Tử vàng Otama- Cao 5cm – No Box
-                                    </p>
-                                    <p className="card-price">10.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small p-2">
-                        <div className="col">
-                            <div className="btn-show">
-                                <button className="btn btn-sm btn-shower">XEM THÊM</button>
-                            </div>
-                        </div>
-                    </div>
+                    )}
                     <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2 font">
                         <h2 className="font-size">MÔ HÌNH NARUTO</h2>
                     </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2">
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Luffy và các bại tướng chất lượng- cao 48 cm – ngang 40
-                                        cm – nặng 7 kg – Có Hộp carton – Box xốp
-                                    </p>
-                                    <p className="card-price">5.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Wcf Luffy Zoro Sanji Nami Choper Usopp Law Kin’emon Sư
-                                        Tử vàng Otama- Cao 5cm – No Box
-                                    </p>
-                                    <p className="card-price">10.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2 pt-4">
+                        {productNA.map((product, index) => {
+                                return (
+                                    <div className="col-xl-3 col-md-6 col-12 m-b-20 p-3" key={index}>
+                                        <div className="card">
+                                            <img src={product.imgFigure} className="img-cart" alt=""/>
+                                            <div className="card-body">
+                                                <h5 className="card-title">MÔ HÌNH ANIME</h5>
+                                                <div className="card-p">
+                                                    <Link to={`/detail/${product.id}`} className="card-text ">
+                                                        {product.name}
+                                                    </Link>
+                                                </div>
+                                                <div className="card-p">
+                                                    <p className="card-price">{product.price.toLocaleString("vi-VN", {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                    })}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        )
+                        }
                     </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2">
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Luffy và các bại tướng chất lượng- cao 48 cm – ngang 40
-                                        cm – nặng 7 kg – Có Hộp carton – Box xốp
-                                    </p>
-                                    <p className="card-price">5.000.000 đ</p>
+                    {productNA.length === 0 ? (
+                        <div></div>
+                    ) : (
+                        <div>
+                            {productNA && (
+                                <div className="d-grid" style={{marginLeft: "46%", marginTop: 10}}>
+                                    <ReactPaginate
+                                        previousLabel="Trước"
+                                        nextLabel="Sau"
+                                        pageCount={pageCount}
+                                        onPageChange={handlePageOnclickNA}
+                                        containerClassName='pagination'
+                                        previousClassName='page-item'
+                                        previousLinkClassName='page-link'
+                                        nextClassName='page-item'
+                                        nextLinkClassName='page-link'
+                                        pageClassName='page-item'
+                                        pageLinkClassName='page-link'
+                                        activeClassName='active'
+                                        activeLinkClassName='page-link'
+                                    />
                                 </div>
-                            </div>
+                            )}
                         </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Wcf Luffy Zoro Sanji Nami Choper Usopp Law Kin’emon Sư
-                                        Tử vàng Otama- Cao 5cm – No Box
-                                    </p>
-                                    <p className="card-price">10.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small mx-5 p-2">
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Luffy và các bại tướng chất lượng- cao 48 cm – ngang 40
-                                        cm – nặng 7 kg – Có Hộp carton – Box xốp
-                                    </p>
-                                    <p className="card-price">5.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô hình Wcf Luffy Zoro Sanji Nami Choper Usopp Law Kin’emon Sư
-                                        Tử vàng Otama- Cao 5cm – No Box
-                                    </p>
-                                    <p className="card-price">10.000.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                            <div className="card">
-                                <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                                <div className="card-body">
-                                    <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                    <p className="card-text">
-                                        Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                        nặng 4.9kg – Có Hộp Màu
-                                    </p>
-                                    <p className="card-price">7.500.000 đ</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row large-columns-4 medium-columns-3 small-columns-2 row-small p-2">
-                        <div className="col">
-                            <div className="btn-show">
-                                <button className="btn btn-sm btn-shower">XEM THÊM</button>
-                            </div>
-                        </div>
-                    </div>
+                    )}
                 </div>
             </section>
         </>

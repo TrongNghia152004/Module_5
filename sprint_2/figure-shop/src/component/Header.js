@@ -7,6 +7,15 @@ import Swal from "sweetalert2";
 
 export function Header() {
     const username = localStorage.getItem("username");
+    const account = JSON.parse(localStorage.getItem("account"));
+    console.log(account)
+    const roles = [];
+    if (account != null) {
+        for (let i = 0; i < account.roles.length; i++) {
+            roles.push(account.roles[i].authority);
+        }
+    }
+    console.log(roles)
     const {iconQuantity} = useContext(ValueIconCartContext)
     const navigate = useNavigate();
     const handleLogout = async () => {
@@ -138,19 +147,28 @@ export function Header() {
                                                 </NavLink>
                                             </li>
                                             <li className="nav-item">
-                                                <a aria-current="page" className="nav-link active" href="">
+                                                <NavLink
+                                                    to="/home"
+                                                    className="nav-link"
+                                                >
                                                     Tin tức
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li className="nav-item">
-                                                <a aria-current="page" className="nav-link active" href="">
+                                                <NavLink
+                                                    to="/home"
+                                                    className="nav-link"
+                                                >
                                                     Liên hệ
-                                                </a>
+                                                </NavLink>
                                             </li>
                                             <li className="nav-item">
-                                                <a aria-current="page" className="nav-link active" href="">
+                                                <NavLink
+                                                    to="/home"
+                                                    className="nav-link"
+                                                >
                                                     Giới thiệu
-                                                </a>
+                                                </NavLink>
                                             </li>
                                         </ul>
                                     </div>
@@ -165,9 +183,59 @@ export function Header() {
                                                             <Avatar>{username[0].toUpperCase()}</Avatar>
                                                         </Dropdown.Toggle>
                                                         <Dropdown.Menu>
+                                                            {roles.includes('ADMIN') ? (
+                                                                <Dropdown.Item className="text-decoration-none">
+                                                                    <Link
+                                                                        to={""}
+                                                                        className="text-dark text-decoration-none"
+                                                                    >
+                                                                        Quản lí sản phẩm
+                                                                    </Link>
+                                                                </Dropdown.Item>
+                                                            ) : ('')}
+                                                            {roles.includes('ADMIN') ? (
+                                                                <Dropdown.Item className="text-decoration-none">
+                                                                    <Link
+                                                                        to={""}
+                                                                        className="text-dark text-decoration-none"
+                                                                    >
+                                                                        Quản lí nhân viên
+                                                                    </Link>
+                                                                </Dropdown.Item>
+                                                            ) : ('')}
+                                                            {roles.includes('ADMIN') ? (
+                                                                <Dropdown.Item className="text-decoration-none">
+                                                                    <Link
+                                                                        to={""}
+                                                                        className="text-dark text-decoration-none"
+                                                                    >
+                                                                        Quản lí khách hàng
+                                                                    </Link>
+                                                                </Dropdown.Item>
+                                                            ) : ('')}
+                                                            {roles.includes('USER') ? (
+                                                                <Dropdown.Item className="text-decoration-none">
+                                                                    <Link
+                                                                        to={"/user/history"}
+                                                                        className="text-dark text-decoration-none"
+                                                                    >
+                                                                        Lịch sử đặt hàng
+                                                                    </Link>
+                                                                </Dropdown.Item>
+                                                            ) : ('')}
+                                                            {roles.includes('USER') ? (
+                                                                <Dropdown.Item className="text-decoration-none">
+                                                                    <Link
+                                                                        to={"/user/information"}
+                                                                        className="text-dark text-decoration-none"
+                                                                    >
+                                                                        Thông tin cá nhân
+                                                                    </Link>
+                                                                </Dropdown.Item>
+                                                            ) : ('')}
                                                             <Dropdown.Item
                                                                 onClick={handleLogout}
-                                                                className="text-decoration-none"
+                                                                className="text-decoration-none text-center"
                                                             >
                                                                 Đăng xuất
                                                             </Dropdown.Item>
@@ -185,7 +253,7 @@ export function Header() {
                                             }
                                         </li>
                                         <li>
-                                            <Link to={username? "/cart" : "/login"} className="icon-buy" href="">
+                                            <Link to={username ? "/cart" : "/login"} className="icon-buy" href="">
                                                 <i className="fas fa-shopping-cart"/>
                                                 <div className="number-buy">{iconQuantity}</div>
                                             </Link>

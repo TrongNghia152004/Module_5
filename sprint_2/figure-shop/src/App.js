@@ -6,8 +6,11 @@ import {Route, Routes} from "react-router-dom";
 import {Product} from "./component/Product";
 import {Header} from "./component/Header";
 import {Footer} from "./component/Footer";
-import { QuantityProvider } from "./component/ValueIconCartContext";
+import {QuantityProvider} from "./component/ValueIconCartContext";
 import {FigureDetail} from "./component/FigureDetail";
+import {PaymentSuccess} from "./component/PaymentSuccess";
+import {HistoryShopping} from "./component/HistoryShopping";
+import {InformationPersonal} from "./component/InformationPersonal";
 
 function App() {
     return (
@@ -20,6 +23,9 @@ function App() {
                     <Route path={"/product"} element={<Product/>}/>
                     <Route path={"/cart"} element={<Cart/>}/>
                     <Route path={"/detail/:id"} element={<FigureDetail/>}/>
+                    <Route path={"/order-detail/:totalPrice"} element={<PaymentSuccess/>}/>
+                    <Route path={"/user/history"} element={<HistoryShopping/>}/>
+                    <Route path={"/user/information"} element={<InformationPersonal/>}/>
                 </Routes>
                 <Footer/>
             </QuantityProvider>

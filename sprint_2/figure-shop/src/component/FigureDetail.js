@@ -4,6 +4,7 @@ import * as ProductService from "../service/ProductService";
 import * as CartService from "../service/CartService";
 import {ValueIconCartContext} from "./ValueIconCartContext";
 import Swal from "sweetalert2";
+import {Link} from "react-router-dom";
 
 export function FigureDetail() {
     const param = useParams();
@@ -20,7 +21,16 @@ export function FigureDetail() {
     const [quantity, setQuantity] = useState(0);
 
     const handleIncrease = () => {
-        setQuantity(quantity + 1);
+        if (quantity < figure.quantity){
+            setQuantity(quantity + 1);
+        }else {
+            Swal.fire({
+                title: 'Thông báo',
+                text: 'Sản phẩm trong kho không đủ!',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            })
+        }
     };
 
     const handleDecrease = () => {
@@ -29,10 +39,17 @@ export function FigureDetail() {
         }
     };
     const handleInputChange = (event) => {
-        const newQuantity = parseInt(event.target.value);
-        if (!isNaN(newQuantity) && newQuantity >= 1) {
-            setQuantity(newQuantity);
-        }
+            const newQuantity = parseInt(event.target.value);
+            if (!isNaN(newQuantity) && newQuantity >= 1 && newQuantity <= figure.quantity) {
+                setQuantity(newQuantity);
+            }else {
+                Swal.fire({
+                    title: 'Thông báo',
+                    text: 'Sản phẩm trong kho không đủ!',
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                })
+            }
     };
     useEffect(() => {
         {
@@ -51,7 +68,7 @@ export function FigureDetail() {
             figureProduct: ""
         }
         try {
-            await CartService.addCart({...cart, figureProduct: id}, token);
+            await CartService.addCart({...cart, quantity: quantity , figureProduct: id}, token);
             setIconQuantity(iconQuantity + 1)
             Swal.fire({
                 title: 'Thông báo',
@@ -155,16 +172,21 @@ export function FigureDetail() {
                                         </div>
                                     </div>
                                     <div className="col-7">
-                                        <div className="row">
-                                            <div className="col">
-                                                <button className="button-add" onClick={() => handleAddCart(figure?.id)}>THÊM VÀO GIỎ HÀNG</button>
+                                        {username ? (
+                                            <div className="row" style={{marginTop: 20}}>
+                                                <div className="col">
+                                                    <button className="button-add" onClick={() => handleAddCart(figure?.id)}>THÊM VÀO GIỎ HÀNG</button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="row pt-2">
-                                            <div className="col">
-                                                <button className="button-add">MUA NGAY</button>
+                                        ) : (
+                                            <div className="row" style={{marginTop: 20}}>
+                                                <div className="col">
+                                                    <Link to="/login">
+                                                    <button className="button-add" >THÊM VÀO GIỎ HÀNG</button>
+                                                    </Link>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -172,65 +194,6 @@ export function FigureDetail() {
                         <div className="row pt-5">
                             <div className="col">
                                 <hr className="hr-detail"></hr>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col font">
-                        <h2 className="font-size">SẢN PHẨM TƯƠNG TỰ</h2>
-                    </div>
-                </div>
-                <div className="row mx-5 p-2">
-                    <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                        <div className="card">
-                            <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                            <div className="card-body">
-                                <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                <p className="card-text">
-                                    Mô hình Luffy và các bại tướng chất lượng- cao 48 cm – ngang 40
-                                    cm – nặng 7 kg – Có Hộp carton – Box xốp
-                                </p>
-                                <p className="card-price">5.000.000 đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                        <div className="card">
-                            <img src="/image/sp-1.jpg" className="card-img-top" alt=""/>
-                            <div className="card-body">
-                                <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                <p className="card-text">
-                                    Mô hình Wcf Luffy Zoro Sanji Nami Choper Usopp Law Kin’emon Sư
-                                    Tử vàng Otama- Cao 5cm – No Box
-                                </p>
-                                <p className="card-price">10.000.000 đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                        <div className="card">
-                            <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                            <div className="card-body">
-                                <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                <p className="card-text">
-                                    Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                    nặng 4.9kg – Có Hộp Màu
-                                </p>
-                                <p className="card-price">7.500.000 đ</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-xl-3 col-md-6 col-12 m-b-20">
-                        <div className="card">
-                            <img src="/image/sp-2.jpg" className="card-img-top" alt=""/>
-                            <div className="card-body">
-                                <h5 className="card-title">MÔ HÌNH ANIME</h5>
-                                <p className="card-text">
-                                    Mô Hình One Piece Enel Chúa Trời trạng thái chiến đấu cao 35cm
-                                    nặng 4.9kg – Có Hộp Màu
-                                </p>
-                                <p className="card-price">7.500.000 đ</p>
                             </div>
                         </div>
                     </div>

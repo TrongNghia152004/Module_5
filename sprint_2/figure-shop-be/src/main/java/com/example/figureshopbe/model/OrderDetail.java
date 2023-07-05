@@ -14,19 +14,22 @@ public class OrderDetail {
     @ManyToOne
     @JoinColumn(columnDefinition = "id_product")
     private FigureProduct figureProduct;
-
     @ManyToOne
     @JoinColumn(columnDefinition = "id_order")
     private Order order;
+    @ManyToOne
+    @JoinColumn(columnDefinition = "id_user")
+    private Customer customer;
 
     public OrderDetail() {
     }
 
-    public OrderDetail(Integer id, Integer quantityOrder, FigureProduct figureProduct, Order order) {
+    public OrderDetail(Integer id, Integer quantityOrder, FigureProduct figureProduct, Order order, Customer customer) {
         this.id = id;
         this.quantityOrder = quantityOrder;
         this.figureProduct = figureProduct;
         this.order = order;
+        this.customer = customer;
     }
 
     public Integer getId() {
@@ -59,5 +62,13 @@ public class OrderDetail {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

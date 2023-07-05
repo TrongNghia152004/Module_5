@@ -20,4 +20,9 @@ public class FigureProductService implements IFigureProductService {
     public FigureProduct findById(int id) {
         return iFigureProductRepository.findById(id).get();
     }
+
+    @Override
+    public void save(FigureProduct figureProduct) {
+        iFigureProductRepository.save(figureProduct);
+    }
 }

@@ -1,12 +1,13 @@
 import {useContext, useEffect, useState} from "react";
 import * as CartService from "../service/CartService";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import * as CustomerService from "../service/CustomerService";
 import {ValueIconCartContext} from "./ValueIconCartContext";
-import * as PaymentService from "../service/PaymentService";
 import Swal from "sweetalert2";
+import {PayPalButtons, PayPalScriptProvider} from "@paypal/react-paypal-js";
 
 export function Cart() {
+    const navigate = useNavigate();
     const [carts, setCarts] = useState([]);
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username");
@@ -84,6 +85,14 @@ export function Cart() {
         }, token);
         findAllCart();
     };
+    const handlePayment = async (totalPrice) => {
+        try {
+            await CartService.payment({totalPrice}, token);
+            navigate(`/order-detail/${totalPrice}`)
+        } catch (e) {
+            console.log(e);
+        }
+    }
     const handleInputChange = async (event, cartIndex) => {
         const newQuantity = parseInt(event.target.value);
         try {
@@ -102,17 +111,17 @@ export function Cart() {
             console.log(e);
         }
     };
-    const handleOnclickPayment = async (totalPrice) => {
-        const payment = {
-            totalPrice: totalPrice
-        }
-        try {
-            const result = await PaymentService.payment(payment, token);
-            window.location.href = result.url;
-        } catch (e) {
-            console.log(e);
-        }
-    }
+    // const handleOnclickPayment = async (totalPrice) => {
+    //     const payment = {
+    //         totalPrice: totalPrice
+    //     }
+    //     try {
+    //         const result = await PaymentService.payment(payment, token);
+    //         window.location.href = result.url;
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
     return (
         <>
             <div className="container cart-margin">
@@ -185,34 +194,52 @@ export function Cart() {
                                 <span className="text-muted">Trang chủ</span>
                             </div>
                         </div>
-                        <div className="col-md-4 summary">
+                        <div className="col-md-4 summary" style={{marginTop: 60}}>
                             <div>
                                 <h5 className="h5-cart">
                                     <b>Đơn hàng</b>
                                 </h5>
                             </div>
-                            <hr className="hr-cart"/>
-                            <form className="form-cart">
-                                <div className="col" style={{paddingLeft: 0}}>
-                                    Giao đến : {customer?.address}
-                                </div>
-                            </form>
                             <div
                                 className="row"
                                 style={{borderTop: "1px solid rgba(0,0,0,.1)", padding: "2vh 0"}}
                             >
-                                <div className="col item">Tổng tiền : {totalPrice.toLocaleString("vi-VN", {
+                                <div style={{fontSize: 20}} className="col item">Tổng tiền : {totalPrice.toLocaleString("vi-VN", {
                                     style: "currency",
                                     currency: "VND",
                                 })}</div>
                             </div>
-                            <button onClick={() => handleOnclickPayment(totalPrice)} className="btn-cart">Thanh toán
+                            <div className="p-3" style={{textAlign: "center" , fontSize: 20 , fontWeight: "bolder" , color: "#fa6e4f"}}>Thanh toán</div>
+                            <div style={{textAlign: "center"}}>
+                            <button style={{border: "none"}}>
+                                <PayPalScriptProvider
+                                    options={{"client-id": 'AXU13CYPCv4Cm99RH4gVvsOJri1VgivtuCwLlZMNQAogPWUmMYe6nip5UzSDRiRsK_jIhs7Q-V3JAZB8'}}
+                                >
+                                    <PayPalButtons
+                                        createOrder={(data, actions) => {
+                                            return actions.order.create({
+                                                purchase_units: [
+                                                    {
+                                                        amount: {
+                                                            value: parseFloat((totalPrice / 24000).toString().slice(0, 4)),
+                                                            currency_code: 'USD'
+                                                        },
+                                                    },
+                                                ],
+                                            });
+                                        }}
+                                        onApprove={(data, actions) => {
+                                            handlePayment(totalPrice)
+                                        }}
+
+                                    />
+                                </PayPalScriptProvider>
                             </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/api/public/customer")
+@RequestMapping("/api/user/customer")
 @CrossOrigin("*")
 public class CustomerRestController {
     @Autowired

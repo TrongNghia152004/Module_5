@@ -73,7 +73,7 @@ export function Product() {
                         <div className="col-5 search-flex container-fluid">
                             <div className="row">
                                 <div className="col-6">
-                                    <input onChange={handleNameOnchange} className="form-control input-search"
+                                    <input onChange={handleNameOnchange} className="form-control input-search" placeholder="Tìm kiếm theo tên......"
                                            type="text"/>
                                 </div>
                                 <div className="col-6">

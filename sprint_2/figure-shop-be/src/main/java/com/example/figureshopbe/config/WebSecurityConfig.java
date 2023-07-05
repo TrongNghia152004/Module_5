@@ -1,6 +1,8 @@
 package com.example.figureshopbe.config;
+import com.example.figureshopbe.security.jwt.JwtEntryPoint;
 import com.example.figureshopbe.security.jwt.JwtTokenFilter;
 import com.example.figureshopbe.security.userPrincipal.UserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailService userDetailService;
-
+@Autowired
+    private JwtEntryPoint jwtEntryPoint;
     public WebSecurityConfig(UserDetailService userDetailService) {
         this.userDetailService = userDetailService;
     }
@@ -52,14 +55,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/api/public/**").permitAll()
-//                .antMatchers("/api/user/**").hasAnyAuthority("USER","EMPLOYEE", "ADMIN")
-//                .antMatchers("/api/employee/**").hasAnyAuthority("EMPLOYEE", "ADMIN")
-//                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/api/public/**").permitAll()
+                .antMatchers("/api/user/**").hasAnyAuthority("USER","EMPLOYEE", "ADMIN")
+                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

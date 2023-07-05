@@ -8,26 +8,23 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String date;
     private String totalPayment;
-    @ManyToOne
-    @JoinColumn(columnDefinition = "id_user")
-    private Customer customer;
-
     public Order() {
     }
 
-    public Order(Integer id, String totalPayment, Customer customer) {
+    public Order(Integer id, String date, String totalPayment) {
         this.id = id;
+        this.date = date;
         this.totalPayment = totalPayment;
-        this.customer = customer;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public String getDate() {
+        return date;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public Integer getId() {

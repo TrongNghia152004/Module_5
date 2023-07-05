@@ -9,4 +9,5 @@ import org.springframework.stereotype.Service;
 public interface IFigureProductService {
     Page<FigureProduct> findProductByTypeProduct(String name , Integer idType, Pageable pageable);
     FigureProduct findById(int id);
+    void save(FigureProduct figureProduct);
 }
