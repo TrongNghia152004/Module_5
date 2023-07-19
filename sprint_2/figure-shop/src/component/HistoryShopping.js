@@ -13,6 +13,7 @@ export function HistoryShopping() {
         (async () => {
             const result = await CartService.historyShopping(token);
             setOrders(result);
+            console.log(result);
         })()
     }, []);
     useEffect(() => {
@@ -37,7 +38,6 @@ export function HistoryShopping() {
                     <tr>
                         <th>Số thứ tự</th>
                         <th>Mã đơn hàng</th>
-                        <th>Tên khách hàng</th>
                         <th>Ngày đặt hàng</th>
                         <th>Tổng tiền</th>
                         <th>Chi tiết</th>
@@ -48,9 +48,8 @@ export function HistoryShopping() {
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>MH-{order.id}</td>
-                            <td>{customer?.name}</td>
                             <td>{order.date}</td>
-                            <td>{(order.totalPayment).toLocaleString("vi-VN", {
+                            <td>{(+order.totalPayment).toLocaleString("vi-VN", {
                                 style: "currency",
                                 currency: "VND",
                             })}</td>

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/user/order")
@@ -69,9 +71,14 @@ public class OrderController {
         String name = jwtProvider.getUserNameFromToken(token);
         Customer customer = iCustomerService.findByAccount(name);
         List<OrderDetail> orderDetails = iOrderDetailService.findAll(customer.getId());
+        Set<Integer> integers = new HashSet<>();
         List<Order> orders = new ArrayList<>();
         for (int i = 0; i < orderDetails.size(); i++) {
-            Order order = iOrderService.findById(orderDetails.get(i).getOrder().getId());
+            integers.add(orderDetails.get(i).getOrder().getId());
+        }
+        List<Integer> count = new ArrayList<>(integers);
+        for (int i = 0; i < count.size(); i++) {
+            Order order = iOrderService.findById(count.get(i));
             orders.add(order);
         }
         return orders;

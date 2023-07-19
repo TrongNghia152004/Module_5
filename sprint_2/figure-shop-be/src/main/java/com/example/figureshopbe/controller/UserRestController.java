@@ -77,8 +77,7 @@ public class UserRestController {
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             List<ErrorMessage> errorMessages = new ArrayList<>();
-            bindingResult
-                    .getFieldErrors()
+            bindingResult.getFieldErrors()
                     .stream()
                     .forEach(f -> errorMessages.add(new ErrorMessage(f.getField(), f.getDefaultMessage())));
             return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);

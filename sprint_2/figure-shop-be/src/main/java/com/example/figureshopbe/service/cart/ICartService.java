@@ -14,7 +14,6 @@ public interface ICartService {
     Cart existCart(int idCustomer , int idProduct);
 
     void decrease(int quantity);
-
     void increase(int quantity);
     void add(Cart cart);
     void delete(Cart cart);

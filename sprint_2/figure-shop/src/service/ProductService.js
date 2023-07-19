@@ -19,3 +19,11 @@ export const findProductById = async (id) => {
         console.log(e)
     }
 }
+export const createProduct = async (values , auth) => {
+    const headers = {Authorization: "Bearer " + auth}
+    try {
+        await axios.post(`http://localhost:8080/api/public/product/create` , values , {headers});
+    } catch (e) {
+        console.log(e)
+    }
+}

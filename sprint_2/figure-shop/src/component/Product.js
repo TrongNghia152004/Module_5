@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate";
 import * as CartService from "../service/CartService";
 import {ValueIconCartContext} from "./ValueIconCartContext";
 import {Link} from "react-router-dom";
-import Swal from "sweetalert2";
+import {Field, Form, Formik} from "formik";
 
 export function Product() {
     const username = localStorage.getItem("username");
@@ -17,6 +17,13 @@ export function Product() {
         name: "",
         idType: 0
     })
+    const account = JSON.parse(localStorage.getItem("account"));
+    const roles = [];
+    if (account != null) {
+        for (let i = 0; i < account.roles.length; i++) {
+            roles.push(account.roles[i].authority);
+        }
+    }
     const token = localStorage.getItem("token");
     useEffect(() => {
         {
@@ -64,16 +71,30 @@ export function Product() {
             console.log(err)
         }
     }
+    const handleAddProduct = async () => {
+
+    }
     return (
         <>
             <section className="section header-section">
                 <div className="container ">
                     <div className="row">
-                        <div className="col-7"></div>
+                        <div className="col-7">
+                            {roles.includes("ADMIN") ? (
+                                <a type="button"
+                                   className="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                   data-bs-target="#exampleModal">
+                                    Thêm mới
+                                </a>
+                            ) : (
+                                ''
+                            )}
+                        </div>
                         <div className="col-5 search-flex container-fluid">
                             <div className="row">
                                 <div className="col-6">
-                                    <input onChange={handleNameOnchange} className="form-control input-search" placeholder="Tìm kiếm theo tên......"
+                                    <input onChange={handleNameOnchange} className="form-control input-search"
+                                           placeholder="Tìm kiếm theo tên......"
                                            type="text"/>
                                 </div>
                                 <div className="col-6">
@@ -102,7 +123,6 @@ export function Product() {
                                         <div className="card">
                                             <img src={product.imgFigure} className="img-cart" alt=""/>
                                             <div className="card-body">
-                                                <h5 className="card-title">MÔ HÌNH ANIME</h5>
                                                 <div className="card-p">
                                                     <Link to={`/detail/${product.id}`} className="card-text ">
                                                         {product.name}
@@ -125,6 +145,18 @@ export function Product() {
                                                             </Link>
                                                         )}
                                                     </p>
+                                                </div>
+                                                <div className="card-p">
+                                                    {roles.includes("ADMIN") ? (
+                                                        <button className="btn btn-primary btn-sm">Sửa</button>
+                                                    ) : (
+                                                        ''
+                                                    )}
+                                                    {roles.includes("ADMIN") ? (
+                                                        <button className="btn btn-danger btn-sm">Xoá</button>
+                                                    ) : (
+                                                        ''
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -159,7 +191,87 @@ export function Product() {
                         </div>
                     )}
                 </div>
+                <div className="modal fade" id="exampleModal" tabIndex="-1"
+                     aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header text-center"
+                                 style={{color: "red", fontSize: 20, fontWeight: "bolder"}}>
+                                <h5 className="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                            </div>
+                            <div className="modal-body">
+                                <Formik initialValues={{
+                                    name: '',
+                                    imgFigure: '',
+                                    price: 0,
+                                    material: '',
+                                    height: '',
+                                    weight: '',
+                                    quantity: 0,
+                                    productType: 0
+                                }} onSubmit={(values) => {
+                                    (async () => {
+                                        await ProductService.createProduct(values, token);
+                                    })()
+                                }}>
+                                    <Form>
+                                        <div><label htmlFor="">Tên sản phẩm</label>
+                                            <Field type="text" name="name"/></div>
+                                        <div>
+                                            <div>
+
+                                                <label htmlFor="">Hình ảnh</label>
+                                                <Field type="text" name="imgFigure"/>
+                                            </div>
+                                            <div>
+
+                                                <label htmlFor="">Giá sản phẩm</label>
+                                                <Field type="text" name="price"/>
+                                            </div>
+                                            <div>
+
+                                                <label htmlFor="">Chất liệu</label>
+                                                <Field type="text" name="material"/>
+                                            </div>
+                                            <div>
+
+                                                <label htmlFor="">Chiều cao</label>
+                                                <Field type="text" name="height"/>
+                                            </div>
+                                            <div>
+                                                <label htmlFor="">Khối lượng</label>
+                                                <Field type="text" name="weight"/>
+                                            </div>
+                                            <div>
+                                                <label htmlFor="">Số lượng</label>
+                                                <Field type="text" name="quantity"/>
+                                            </div>
+                                            <div>
+                                                <label htmlFor="">Loại sản phẩm</label>
+                                                <Field as="select" name="productType">
+                                                    {typeProducts.map((type, index) => (
+                                                        <option key={index} value={type.id}>{type.name}</option>
+                                                    ))}
+                                                </Field>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="submit"
+                                                        className="button-modal" data-bs-dismiss="modal">Thêm mới
+                                                </button>
+                                                <button type="button" className="btn btn-secondary btn-sm"
+                                                        data-bs-dismiss="modal">Huỷ
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </Form>
+                                </Formik>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </section>
         </>
-    )
+)
 }

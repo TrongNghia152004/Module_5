@@ -8,14 +8,12 @@ import Swal from "sweetalert2";
 export function Header() {
     const username = localStorage.getItem("username");
     const account = JSON.parse(localStorage.getItem("account"));
-    console.log(account)
     const roles = [];
     if (account != null) {
         for (let i = 0; i < account.roles.length; i++) {
             roles.push(account.roles[i].authority);
         }
     }
-    console.log(roles)
     const {iconQuantity} = useContext(ValueIconCartContext)
     const navigate = useNavigate();
     const handleLogout = async () => {

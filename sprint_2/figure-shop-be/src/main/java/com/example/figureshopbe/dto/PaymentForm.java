@@ -9,18 +9,18 @@ public class PaymentForm {
     private String phoneNumberShipping;
     private String addressShipping;
     private String name;
-    private Double priceTotal;
+    private Double totalPrice;
     private List<Integer> listCartId = new ArrayList<>();
 
     public PaymentForm() {
     }
 
-    public PaymentForm(Customer customer, String phoneNumberShipping, String addressShipping, String name, Double priceTotal, List<Integer> listCartId) {
+    public PaymentForm(Customer customer, String phoneNumberShipping, String addressShipping, String name, Double totalPrice, List<Integer> listCartId) {
         this.customer = customer;
         this.phoneNumberShipping = phoneNumberShipping;
         this.addressShipping = addressShipping;
         this.name = name;
-        this.priceTotal = priceTotal;
+        this.totalPrice = totalPrice;
         this.listCartId = listCartId;
     }
 
@@ -47,18 +47,21 @@ public class PaymentForm {
     public void setAddressShipping(String addressShipping) {
         this.addressShipping = addressShipping;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
-    public Double getPriceTotal() {
-        return priceTotal;
+
+    public Double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setPriceTotal(Double priceTotal) {
-        this.priceTotal = priceTotal;
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public List<Integer> getListCartId() {

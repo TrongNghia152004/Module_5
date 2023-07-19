@@ -11,7 +11,7 @@ import {FigureDetail} from "./component/FigureDetail";
 import {PaymentSuccess} from "./component/PaymentSuccess";
 import {HistoryShopping} from "./component/HistoryShopping";
 import {InformationPersonal} from "./component/InformationPersonal";
-
+import {PaymentStatus} from "./StatusPayment";
 function App() {
     return (
         <>
@@ -26,6 +26,7 @@ function App() {
                     <Route path={"/order-detail/:totalPrice"} element={<PaymentSuccess/>}/>
                     <Route path={"/user/history"} element={<HistoryShopping/>}/>
                     <Route path={"/user/information"} element={<InformationPersonal/>}/>
+                    <Route path={"/cart/payment"} element={<PaymentStatus/>}/>
                 </Routes>
                 <Footer/>
             </QuantityProvider>
